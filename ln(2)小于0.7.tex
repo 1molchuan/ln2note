@@ -1,0 +1,1025 @@
+\documentclass[12pt]{article}
+
+% ==================== 宏包设置 ====================
+\usepackage{ctex}
+\usepackage[top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage{booktabs}
+\usepackage{longtable,array}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+% ==================== 定理环境定义 ====================
+\theoremstyle{definition}
+\newtheorem{definition}{定义}[section]
+\newtheorem{remark}{注}[section]
+
+\theoremstyle{plain}
+\newtheorem{theorem}{定理}[section]
+\newtheorem{lemma}{引理}[section]
+
+% 特殊的构造环境
+\theoremstyle{definition}
+\newtheorem{construction}{构造}[section]
+\renewcommand{\theconstruction}{\arabic{construction}}
+\newenvironment{construction*}[1]
+  {\renewcommand{\theconstruction}{}\begin{construction}#1\itshape}
+  {\end{construction}}
+
+% ==================== 页面设置 ====================
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.5\baselineskip plus 0.1\baselineskip minus 0.1\baselineskip}
+\setlength{\emergencystretch}{3em}
+\setlength{\headheight}{15pt}
+
+% 页眉页脚设置
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{$\ln 2 < 0.7$ 的估值与探索}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% 超链接设置
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX},
+  pdftitle={\texorpdfstring{$\ln 2 < 0.7$}{ln 2 < 0.7} 的估值与探索},
+  pdfauthor={笔者}}
+
+% ==================== 数学符号重定义 ====================
+\newcommand{\diff}{\mathop{}\!\mathrm{d}}
+\newcommand{\ee}{\mathrm{e}}
+
+% ==================== 文档开始 ====================
+\begin{document}
+
+% ==================== Frontmatter ====================
+
+% 封面页
+\begin{titlepage}
+    \centering
+    \vspace*{6cm} % 顶部留白
+    
+    {\Huge \bfseries $\ln 2 < 0.7$ 的估值与探索 \par} % 主标题
+    
+    \vspace{1.5cm} % 标题与横线间距
+    
+    \rule{0.8\textwidth}{1pt} % 横线，宽度为页面宽度的 80%
+    
+    \vspace{0.8cm} % 横线与副标题间距
+    
+    {\Large \itshape —— 一篇陪伴我一年的文章 \par} % 副标题，强制在同一行
+    
+    \vfill % 把作者信息推到底部
+    
+    {\large 笔者 \par}
+    \vspace{0.5cm}
+    {\large \today \par}
+    
+    \vspace*{3cm} % 底部留白
+\end{titlepage}
+
+\newpage
+
+% 题记页
+\newpage
+\thispagestyle{empty} % 题记页不显示页码
+
+\vspace*{\fill} % 顶部弹性填充
+
+\begin{center}
+    \begin{minipage}{0.7\textwidth} % 限制宽度为 70%，防止文字太散
+        \centering
+        \large\itshape
+        ``温斯顿斟满酒杯，说：`过去更重要。' ''
+        \par
+        \vspace{1em}
+        \hfill —— 乔治·奥威尔《1984》
+    \end{minipage}
+\end{center}
+
+\vspace*{\fill} % 底部弹性填充
+\newpage
+
+% 目录页
+\tableofcontents
+\newpage
+
+% 前言
+\section*{写在前面}
+\addcontentsline{toc}{section}{写在前面}
+
+第二次提笔，准备写下这篇陪伴我一年的文章。第一本送给了珍视的过去，也化作了过去，流下的仅是回忆罢了。当我跑过思源湖的星星灯火，我也穿梭进了回忆，在封存的记忆中找到了想再写一遍的愿望。或许我只是一个活在过去的幽魂。
+
+重温过去，第一篇文章写在前同桌偶然打错的 \(\ln 2\) 之后。至此
+\(\ln 2 < 0.7\) 的命题，或对 \(\ln 2\)
+的估值便成了我高中愉快的印记。也正是这一命题，让我看见高数代数背后的逻辑思路，或许这是美的。
+
+我曾质疑我这一爱好是否合理。但有人有一天告诉我：``你真觉得你没有你喜欢的东西吗？''我突然明白，爱好本身没有合理与否，不打扰他人，做自己喜欢的事，这就是正常的爱好。
+
+所以犹豫再三，再一次提笔，重新写下这篇文章，可能想为之前的文章写下一个句号，也可能是为我的记忆作序\ldots\ldots
+
+\newpage
+
+% ==================== Mainmatter ====================
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+\section{切线放缩}
+
+\subsection{基本的切线放缩（切点改变）}
+
+高中阶段，教科书中给出不等式
+
+\[\ln x \leq x - 1\quad \ee^{x} \geq x + 1\]
+
+证明简单，这里就不过多阐述。
+
+回到这个不等式本身，我们是如何发现这个式的。很明显，切线放缩
+\(y = x + 1\) 作为 \(y = \ln x\) 的切线。\(y = x + 1\) 作为 \(y = \ee^{x}\)
+的切线。那么一般地，什么函数我们可以进行切线放缩？
+
+答案是凸函数或凹函数（即 \(f(x)\) 恒大于 0 或 \(f(x)\) 恒小于 0）。以
+\(\ln x\) 为例，
+
+令
+\(f(x) = \ln x\)，\(f'(x) = \frac{1}{x}\)，\(f''(x) = -\frac{1}{x^{2}} < 0\)
+显然 \(\ln x\)
+是凹函数（这里的凹函数不同于凸函数反转中的凹函数）。那么对于 \(\ln x\)
+上任意一点 \(\left( x_{0},\ln x_{0} \right)\) 都有
+
+\[\ln x \leq \frac{1}{x_{0}}\left( x - x_{0} \right) + \ln x_{0}\]
+
+这里我们需要代入 \(x=2\)，倘若我们所取切点 \(x_0\) 越接近 2，那么不等式越精确。
+这里我们取 \(x_0 = \ee^{-\frac{2}{3}}\)（由于 \(\ee^{2} \approx 7.389\)，\(2^{3} \approx 8\)）代入 \(x=2\) 得
+
+\[\ln 2 \leq 2\ee^{\frac{2}{3}} - \frac{1}{3} \approx 0.6933009\]
+
+显然这相当精确
+
+\subsection{基本不等式放缩（取点改变）}
+
+在上一小节中我们初步尝试了改变的切点，获得了针对 \(x=2\)
+的不等式，那么我们是否可以改变取点，在不改变切线不等式的基础上完成比较精准的方式？答案当然是肯定，即只利用
+\(\ln x < x - 1\) 完成对 \(\ln 2\) 较精准估值。我们可以利用 \(\ln x\)
+的性质：① \(\ln x^{n} = n \ln x\) (\(x > 0\))；② \(\ln ab = \ln a + \ln b\)。
+
+那么我可以借助 2, \(\ee\) 和根号构造一个接近于 1
+的不等式数字让不等式发挥最大作用，这里可以代入 \(x = \frac{\ee^{2}}{8}\) 和
+\(x = \sqrt{\frac{\ee^{2}}{8}}\) 得
+
+\begin{align*}
+\ln 2 &< \frac{8 + \ee^{2}}{3\ee^{2}} \approx 0.694 \\
+\ln 2 &< \frac{4\sqrt{\ee}}{3\ee} \approx 0.6936
+\end{align*}
+
+确实相当精确了。
+
+\subsection{小结}
+
+本节我们并没有专注于升级我们的不等式，而是借助 \(\ln x\) 的性质对 \(\ln 2\)
+进行估值。但是也需要承认它存在局限性。它还是需要对 \(\ee\)
+值和一些无理数值进行估计。倘若改变的估计的数值，可能并不好取点。因此这类方法失去了自己的一部分普遍性。
+
+\section{积分构造}
+
+\subsection{不等式加强（积分构造）}
+
+\begin{construction}
+构造基础：构造 \(f(x)\)，使得 \(f(x) \geq \ln x\)，当且仅当 \(x=1\) 时取等。
+\begin{itemize}
+    \item 在 \((0,1]\) 上，\(f'(x) \leq \frac{1}{x}\)；
+    \item 在 \([1, +\infty)\) 上，\(f'(x) \geq \frac{1}{x}\)。
+\end{itemize}
+\(f(x)\) 在 \((0, +\infty)\) 上连续可导。则构造函数令 \([P(x)]' = f(x)\)（注：本质是求不定积分）。
+\end{construction}
+
+\subsubsection*{1. 构造推导}
+
+记符号 $\sim$ 代表比较关系：
+
+\begin{align*}
+    f(x) &\sim \ln x \\
+    \Rightarrow P(x) - P(1) - 1 &\sim x\ln x - x \quad \text{（$-P(1)-1$ 用于调整系数使 $x=1$ 时取等）} \\
+    = 1 + \frac{P(x) - P(1) - 1}{x} &\sim \ln x
+\end{align*}
+
+设辅助函数 $g(x)$：
+
+\begin{align*}
+    \text{令 } \frac{g(x)}{x} &= \frac{P(x)}{x} + 1 - \frac{P(1) + 1}{x} - \ln x \\
+    \Rightarrow g(x) &= P(x) + x - P(1) - 1 - x\ln x \\
+    \Rightarrow g'(x) &= f(x) - \ln x \geq 0
+\end{align*}
+
+则在 $(0,1]$ 上 $g(x) \leq 0$，在 $[1, +\infty)$ 上 $g(x) \geq 0$。即得到：
+
+\[
+\begin{cases} 
+    \ln x \geq \frac{P(x)}{x} + 1 - \frac{P(1)}{x}, & 0 < x \leq 1 \\
+    \ln x \leq \frac{P(x)}{x} + 1 - \frac{P(1) + 1}{x}, & x > 1 
+\end{cases}
+\]
+
+\subsubsection*{2. 不等式加强证明（讨论 $x > 1$ 段）}
+
+令 $\frac{h(x)}{x} = f(x) - \frac{P(x)}{x} + 1 + \frac{P(1) + 1}{x}$，则有：
+
+\begin{align*}
+    h(x) &= xf(x) - P(x) - x + P(1) + 1 \\
+    \Rightarrow h'(x) &= f(x) + xf'(x) - f(x) - 1 \\
+    &= xf'(x) - 1 \geq 0 \quad \text{（因为 $x>1$ 时 $f'(x) \geq \frac{1}{x}$）}
+\end{align*}
+则 $h(x) \geq 0$，即不等式得到加强。
+
+\subsubsection*{3. 总结：积分构造变换 $S$}
+
+以上是构造基本原理，定义积分构造的变换为 $S$：
+
+\[
+\ln x \leq f(x) \xrightarrow{S} 
+\begin{cases} 
+    \ln x \geq g(x), & 0 < x \leq 1 \\
+    \ln x \leq g(x), & x > 1 
+\end{cases}
+\]
+
+同时也有反向加强：
+
+\[
+\begin{cases} 
+    \ln x \geq g(x), & 0 < x \leq 1 \\
+    \ln x \leq g(x), & x > 1 
+\end{cases} 
+\xrightarrow{S} \ln x \leq h(x)
+\]
+
+那么以 \(\ln x \leq x - 1\) 开始迭代
+
+① 取 \(\ln x \sim x - 1\)
+
+由于
+\(\left\lbrack x\ln x - x \right\rbrack' = \ln x\)，\(\left\lbrack \frac{1}{2}x^{2} - x \right\rbrack' = x - 1\)
+由此构造
+
+\begin{align*}
+(\ln x - 1)x &\sim \frac{1}{2}x^{2} - x + k \quad \text{（前后保持 }x > 1\text{ 取等条件）} \\
+k &= -\frac{1}{2} \\
+\Rightarrow \ln x &\sim \frac{1}{2}\left( x - \frac{1}{x} \right)
+\end{align*}
+
+即
+\begin{equation*}
+\begin{cases}
+\ln x \geq \frac{1}{2}\left( x - \frac{1}{x} \right), & \quad 0 < x \leq 1 \\
+\ln x < \frac{1}{2}\left( x - \frac{1}{x} \right), & \quad x > 1
+\end{cases}
+\end{equation*}
+
+此式正是基本 AC 不等式，但精度不够则重复上述变换。
+
+取
+\(\left\lbrack (\ln x - 1)x \right\rbrack' = \ln x\)，\(\left\lbrack \frac{1}{2}x^{2} - \frac{1}{2}x^{2} \right\rbrack' = \frac{1}{2}x^{2} - x\)
+
+重复变换
+
+\begin{align*}
+\ln x &\leq \frac{(x + 5)(x - 1)}{4x + 2} \\
+\text{满足所证命题 } \ln 2 &\leq 0.7
+\end{align*}
+
+有兴趣者可继续往下推理，这里给出答案
+
+这
+\begin{equation*}
+\begin{cases}
+\ln x \geq \frac{(x - 1)\left( x^{2} + 10x + 1 \right)}{6x(x + 1)}, & \quad 0 < x \leq 1 \\
+\ln x < \frac{(x - 1)\left( x^{2} + 10x + 1 \right)}{6x(x + 1)}, & \quad x > 1
+\end{cases}
+\end{equation*}
+
+\subsection{更一般的不等式积分构造}
+
+在前一小节中的积分构造是大多数模拟卷对函数的构造，这一节则讲述更一般的构造，即通过积分构造由
+\(x\) 常数项、分式项的适合拟合函数
+
+仅由 \(\ln x \sim \frac{1}{2}\left( x - \frac{1}{x} \right)\)
+开始，这里我们提取 \(x\) 分母后再开始积分
+
+\begin{align*}
+x\ln x &\sim \frac{1}{2}\left( x^{2} - 1 \right) \\
+\text{积分后 } \frac{1}{2}x^{4}\ln x - \frac{1}{4}x^{2} &\sim \frac{1}{6}x^{3} - \frac{1}{2}x + \frac{1}{12} \\
+\text{化简有 } \ln x &\sim \frac{1}{3}x + \frac{1}{2} - \frac{1}{x} + \frac{1}{6}x^{2}
+\end{align*}
+
+以此类推，可以得到一连串式子。在这里列出表格。
+
+\begin{table}[htbp]
+\centering
+\caption{拟合系数表}
+\begin{tabular}{c|ccccccc}
+\toprule
+\multirow{2}{*}{最低项次数-$n$} & \multicolumn{7}{c}{项次数-$n$} \\
+\cmidrule(lr){2-8}
+ & $1$ & $0$ & $-1$ & $-2$ & $-3$ & $-4$ & $-5$ \\
+\midrule
+$0$ & $1$ & $-1$ & & & & & \\
+$1$ & $\frac{1}{2}$ & $0$ & $-\frac{1}{2}$ & & & & \\
+$2$ & $\frac{1}{3}$ & $\frac{1}{2}$ & $-1$ & $\frac{1}{6}$ & & & \\
+$3$ & $\frac{1}{4}$ & $\frac{5}{6}$ & $-\frac{3}{2}$ & $\frac{1}{2}$ & $-\frac{1}{12}$ & & \\
+$4$ & $\frac{1}{5}$ & $\frac{13}{12}$ & $-2$ & $1$ & $-\frac{1}{3}$ & $\frac{1}{20}$ & \\
+$5$ & $\frac{1}{6}$ & $\frac{71}{60}$ & $-\frac{5}{2}$ & $\frac{5}{3}$ & $-\frac{5}{6}$ & $\frac{1}{4}$ & $-\frac{1}{30}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+可以发现存在规律，通过数学归纳法可得拟合函数 (\(n \geq 1\))
+
+\[\varphi^{n}(x) = \frac{1}{n + 1}x + \sum_{i = 1}^{n}( - 1)^{i}\frac{1}{(i + 1)}\left( \frac{n}{i} \right)x^{n} + \left( \frac{n}{i} \right)x^{n} - 1\]
+
+不难证明：\(n\) 为偶数时，\(\ln x \leq \varphi^{n}(x)\)；\(n\) 为奇数，\(x > 1\) 时
+\(\ln x \leq \varphi^{n}(x)\)，\(x < 1\) 时 \(\ln x \geq \varphi^{n}(x)\)。
+
+在 \(n=3\) 时代入 \(x=2\)，\(\ln 2 \leq \frac{67}{96} \approx 0.6979167\)；
+在 \(n=4\) 时代入 \(x=2\)，\(\ln 2 < \frac{667}{960} \approx 0.6948\)；
+在 \(n=5\) 时代入 \(x=2\)，\(\ln 2 < \frac{111}{160} = 0.69375\)。
+
+显然增加了极大的精确程度。
+
+\subsection{小结}
+
+本章大致讲了积分构造的两种路径：
+前一种是模拟卷曲构造函数法，后一种是作者原创的函数拟合法，
+并给出通项公式相对计算量没有前一种大，而且在对 \(\ln 2\) 估计时都是有理数比较，相对方便。
+
+\section{根式加强不等式}
+
+\subsection{引用根式加强函数补全}
+
+在高中阶段，模拟卷中经常出现一种不等式
+\[\ln x \leq \sqrt{x} - \frac{1}{\sqrt{x}}, \quad \text{其中 } x \geq 1\]
+其来源于将 \(\sqrt{x}\) 代入基本不等式
+\[\ln x \leq \frac{1}{2}\left( x - \frac{1}{x} \right), \quad \text{其中 } x \geq 1\]
+以得到加强式。那么，为什么代入 \(\sqrt{x}\) 会使不等式加强？我们是否可以得到一种不等式加强的通法？答案是肯定的。
+
+首先，我们先将 \(x = 2\) 代入上述两个不等式进行比较：
+\begin{align*}
+\ln 2 &\leq \sqrt{2} - \frac{1}{\sqrt{2}} = \frac{\sqrt{2}}{2} \approx 0.707 \\
+\ln 2 &\leq \frac{1}{2}\left( 2 - \frac{1}{2} \right) = 0.75
+\end{align*}
+显然，第一个不等式比第二个更精确。下面解释加强的原因。
+
+令 \(f(t) = \frac{1}{2}\left( t - \frac{1}{t} \right) - \ln t\)，则
+\begin{align*}
+f'(t) &= \frac{t - 1}{2t^{2}} > 0, \quad \text{其中 } t > 1
+\end{align*}
+因此 \(f(t)\) 在 \([1, +\infty)\) 上单调递增，又由于 \(f(1) = 0\)，则 \(f(t) > 0\)（\(t > 1\)）。显然在 \(t > 1\) 时 \(t > \sqrt{t}\)，则
+\[f(t) > f\left( \sqrt{t} \right) > 0\]
+这说明不等式加强。
+
+那么我们为什么利用 \(\sqrt{x}\) 这一类的函数来进行不等式加强？首先，\(\sqrt{x}\) 具有良好性质：在 \(x > 1\) 时 \(x > \sqrt{x} > 1\)，在 \(0 < x < 1\) 时 \(1 > \sqrt{x} > x\)；其次形式简便，\(\ln\sqrt{x} = \frac{1}{2}\ln x\) 为后续不等式化简提供便利。
+
+一般地，对于 \(x > 1\) 时，若 \(f(x) \geq \ln x\)，那么
+\begin{align*}
+f\left( \sqrt{x} \right) &\geq \frac{1}{2}\ln x \\
+\ln x &\leq 2f\left( \sqrt{x} \right)
+\end{align*}
+那么从 \(\ln x \leq x - 1\) 开始，代入 \(\sqrt{x}\) 得
+\[\ln x \leq 2\left( \sqrt{x} - 1 \right)\]
+更一般地，有
+\[\ln x \leq n\left( \sqrt[n]{x} - 1 \right)\]
+令 \(x = 2\) 代入化简得
+\begin{align*}
+\ln 2 &\leq n\left( 2^{\frac{1}{n}} - 1 \right)
+\end{align*}
+
+我们研究函数 \(g(n) = n\left( 2^{\frac{1}{n}} - 1 \right)\)，则
+\begin{align*}
+g'(n) &= 2^{\frac{1}{n}} - 1 - \frac{\ln 2}{n}2^{\frac{1}{n}} < 0
+\end{align*}
+因此 \(g(n)\) 单调递减，且
+\begin{align*}
+\lim_{n \rightarrow \infty}n\left( 2^{\frac{1}{n}} - 1 \right) &= \lim_{n \rightarrow \infty}\frac{2^{\frac{1}{n}} - 1}{\frac{1}{n}} \\
+&= \ln 2
+\end{align*}
+则函数在 \(n\) 趋近于 \(+\infty\) 时收敛于 \(\ln 2\)。
+
+倘若我们需要借助 \(\ln x \leq n\left( \sqrt[n]{x} - 1 \right)\) 得出 \(\ln 2 < 0.7\)，只需要得到
+\[n\left( 2^{\frac{1}{n}} - 1 \right) = 0.7\]
+的大致解。借助 \texttt{MATLAB} 的数学工具，\(n \approx 35.2\)。即 \(\ln x \leq 36\left( \sqrt[36]{x} - 1 \right)\) 可以得出 \(\ln 2 < 0.7\) 的结论。
+
+必须要承认 \(g(n) = n\left( 2^{\frac{1}{n}} - 1 \right)\) 的收敛速度太慢。可以使用 \(\ln x \leq \frac{1}{2}\left( x - \frac{1}{x} \right)\) 的衍生式
+\[\ln x \leq \frac{n}{2}\left( x^{\frac{1}{n}} - x^{-\frac{1}{n}} \right)\]
+代入 \(x = 2\) 得
+\begin{align*}
+\left( 2^{\frac{1}{n}} - 2^{-\frac{1}{n}} \right) \cdot \frac{n}{2} &\geq \ln 2 \\
+\left( 2^{\frac{1}{n}} - 2^{-\frac{1}{n}} \right) \cdot \frac{n}{2} &= 0.7 \quad \text{（借助 \texttt{MATLAB} 求解）}
+\end{align*}
+得 \(n \approx 2.85\)。即
+\[\ln x \leq \frac{3}{2}\left( \sqrt[3]{x} - \frac{1}{\sqrt[3]{x}} \right)\]
+可以达到放缩效果。
+
+事实上，根号放缩对本书提到的大部分不等式均可使用，有兴趣者可以尝试。这里不过多赘述。
+
+\subsection{根式函数拟合}
+
+灵感主要来自于 2019 年的浙江压轴导数大题，需要证明出不等式
+\(\ln x \leq 4\sqrt{x} - 2\sqrt{2x + 2}\)
+
+对其进行证明令
+\(f(x) = \frac{\sqrt{2}}{4}\ln x + \sqrt{2x} - \sqrt{2}x\)
+
+\[f'(x) = \frac{1}{2\sqrt{2}x} + \frac{1}{2\sqrt{1 + x}} - \frac{1}{\sqrt{2}x} = \frac{\sqrt{x + 1} + \sqrt{2}x - 2\sqrt{x + x}}{2x\sqrt{2x + 2}}\quad(x > 0)\]
+
+令 \(p(x) = \sqrt{x + 1} + \sqrt{2}x - 2\sqrt{x^{2} + x}\)
+
+\[p'(x) = \frac{1}{2\sqrt{1 + x}} + \sqrt{2} - \frac{2x + 1}{\sqrt{x^{2} + x}} = \frac{\sqrt{x} + 2\sqrt{2x^{2} + 2x} - (4x + 2)}{2\sqrt{x^{2} + x}}\quad(x > 0)\]
+
+要证
+\(p'(x) < 0 \Rightarrow 2\sqrt{2x + 2x} < 4x + 2 - \sqrt{x}\quad(x > 0)\)
+
+令 \(\sqrt{x} = t\)，则 \(2t\sqrt{2t + 2} < 4t^{2} - t + 2\)，平方得
+\[\left( 2t\sqrt{2t + 2} \right)^{2} < \left( 4t^{2} - t + 2 \right)^{2} \Rightarrow 8t^{4} - 8t^{3} + 9t^{2} - 4t + 4 > 0\quad(t > 0)\]
+
+显然 \(8t^{4} - 8t^{3} + 9t^{2} - 4t + 4 = 2t^{2}\left\lbrack (2t - 1)^{2} + 3 \right\rbrack + (t - 2)^{2} \geq 0\)
+则 \(p'(x) < 0\)，\(p(x)\) 在 \((0,1)\) 上单调递减，又因为 \(p(1) = 0\)，则
+\(p(x) > 0\)（\(x \in (0,1)\)）。从计算机 \texttt{MATLAB} 的拟合来看
+\(4\sqrt{x} - 2\sqrt{2x + 2}\) 不同于之前介绍的不等式
+笔者尝试构造类似不等式即
+
+\[\ln x \leq a\sqrt{x} + b\sqrt{x + 1} + c\sqrt{x + 2}\]
+
+由待定系数法解得
+
+\[\ln x \leq 7\sqrt{x} - 8\sqrt{2x + 2} + 3\sqrt{3x + 6}\]
+
+下面给出证法（感谢富阳中学华哲文）。要证
+\(7\sqrt{x} + 3\sqrt{3x + 6} - 8\sqrt{2x + 2} - \ln x \geq 0\)，令
+\(F(x) = 7\sqrt{x} + 3\sqrt{3x + 6} - 8\sqrt{2x + 2} - \ln x\)
+
+\[F'(x) = \frac{1}{\sqrt{x}}\left( \frac{7}{2} + \frac{3\sqrt{3}}{2\sqrt{x + 2}} - \frac{4\sqrt{2}}{\sqrt{x + 1}} - \sqrt{x} \right)\]
+
+记
+\(G(t) = \frac{7}{2} + \frac{3\sqrt{3}}{2\sqrt{t + 2}} - \frac{4\sqrt{2}}{\sqrt{t + 1}} - \sqrt{t}\)
+
+\[G'(t) = t^{\frac{1}{2}}\left( \frac{3\sqrt{3}}{2}\frac{t}{(t + 2)\sqrt{t}} + 2\sqrt{2}\frac{1}{(t + 2)^{\frac{3}{2}}} + \frac{1}{2} \right)\]
+
+记
+\(H(x) = \frac{3\sqrt{3}}{2}\frac{x}{(x + 2)^{\frac{3}{2}}} + 2\sqrt{2}\frac{x}{(x + 1)^{\frac{3}{2}}} - \frac{1}{2}\)
+
+\[H'(x) = \frac{\sqrt{2}}{(x + 1)^{\frac{5}{2}}} - \frac{9\sqrt{3}}{4(x + 2)^{\frac{3}{2}}} - \frac{1}{2}(x + 1)\left\lbrack \frac{2\sqrt{2}}{(x + 1)^{\frac{3}{2}}} - \frac{3\sqrt{3}}{(x + 2)^{\frac{3}{2}}} \right\rbrack\]
+
+当 \(x > 0\) 时 \(1 - x < 0\)
+\(\frac{\sqrt{2}}{(x + 1)^{\frac{5}{2}}} < \frac{9\sqrt{3}}{4(x + 2)^{\frac{3}{2}}}\)
+\(\therefore H'(x) < 0\) \(\therefore H'(x) < H'(1) = 0\) 当
+\(0 < x \leq 1\) 时
+\(\frac{(x + 2)^{\frac{2}{3}}}{(x + 1)^{\frac{2}{3}}} > 2\sqrt{2}\) 则
+\(\frac{\sqrt{2}}{(x + 1)^{\frac{5}{2}}} \geq \frac{9\sqrt{3}}{4(x + 2)^{\frac{3}{2}}}\)
+又 \(1 - x \geq 0\) 则 \(H'(x) \leq 0\) 则 \(H'(x) < H'(1) = 0\) 则
+\(\forall x > 0\)，\(H'(x) < 0\)，\(\therefore G'(t) < 0\)。
+又因为 \(G(1) = 0\)，则 \(G(t)\) 在 \((0,1)\) 上为正，在
+\((1, +\infty)\) 上为负。\(\therefore F'(x)\) 在 \((0,1)\) 上
+\(\searrow\)，在 \((1, +\infty)\) 上 \(\nearrow\)
+\(\therefore F(x) \geq F(1) = 0\)
+
+那么是否可以构造类似函数
+
+\[\ln x \leq a_{0}\sqrt{x} + a_{1}\sqrt{2x + 2} + a_{2}\sqrt{3x + 6} + \cdots + a_{n}\sqrt{nx + n^{2} - n}\]
+
+答案是可以，这里感谢知友用户杏花雨 她提出，对于
+\(f(x) = 7\sqrt{x} - 8\sqrt{2x + 2} + 3\sqrt{3x + 6} - \ln x\)，则
+\(f'(x) = \frac{7}{2\sqrt{x}} - \frac{8\sqrt{2}}{\sqrt{x + 1}} + \frac{3\sqrt{3}}{2}\frac{1}{\sqrt{x + 2}} - \frac{1}{x}\)
+构造定义域 \((0, + \infty)\) 上的四个函数 \(f_{0}(x) = \frac{1}{x}\),
+\(f_{1}(x) = \frac{1}{\sqrt{x}}\),
+\(f_{2}(x) = \frac{1}{\sqrt{x + 1}}\),
+\(f_{3}(x) = \frac{1}{\sqrt{x + 2}}\)。注意到
+\(\{ f_{0},f_{1},f_{2},f_{3}\}\) 构成一个 Extended Complete Chebyshev
+System (扩展完全切比雪夫系统)，于是任意非平凡的线性组合
+\(c_{0}f_{0} + c_{1}f_{1} + c_{2}f_{2} + c_{3}f_{3}\) 最多有 3 零点。
+定义:
+
+\[F(t) = \frac{3\sqrt{3}}{2}f_{3}(t) - 4\sqrt{2}f_{2}(t) + \frac{7}{2}f_{1}(t) - f_{0}(t)\]
+
+注意到 \(F(1) = F'(1) = F''(1) = 0\) 所以 \(t = 1\) 是一个三阶零点，而
+\(F(2) > 0\) 故 \(f(x)\) 在 \((0,1) \cup (1, + \infty)\) 上 \(\nearrow\)
+则 \(f(x) > 0\) 证毕 这里我们不深究 ECCS
+背后原理，我们只需知道我们可以求解 \(f_{0} = 0\) 和
+\(f_{1}^{(n)} = 0\cdots f_{n}^{(n)} = 0\) 联立 \(n\) 个方程求解问题。
+那么 \(f_{0}\cdots f_{n} = 0\) 化简
+
+\[a_{1} + a_{2}\frac{2}{2n} + a_{3}\frac{n}{3n} + \cdots = \frac{2(n + 1)!}{(2n - 3)!!}\text{(定义 (-1)!! = 1)}\]
+
+则我们以
+\(\ln x \leq a_{0}\sqrt{x} + a_{1}\sqrt{2x + 2} + a_{2}\sqrt{3x + 6} + a_{3}\sqrt{4x + 12} + a_{4}\sqrt{5x + 20}\)
+列出方程组
+
+\[f_{0} = 0 \Rightarrow a_{1} + 2a_{2} + 3a_{3} + 4a_{4} + 5a_{5} = 0\]
+
+\[f_{1}^{(1)} = 0 \Rightarrow a_{1} + a_{2} + a_{3} + a_{4} + a_{5} = 2\]
+
+\[f_{2}^{(2)} = 0 \Rightarrow a_{1} + \frac{1}{2}a_{2} + \frac{1}{3}a_{3} + \frac{1}{4}a_{4} + \frac{1}{5}a_{5} = 4\]
+
+\[f_{3}^{(3)} = 0 \Rightarrow a_{1} + \frac{1}{4}a_{2} + \frac{1}{9}a_{3} + \frac{1}{16}a_{4} + \frac{1}{25}a_{5} = \frac{16}{3}\]
+
+\[f_{4}^{(4)} = 0 \Rightarrow a_{1} + \frac{1}{8}a_{2} + \frac{1}{27}a_{3} + \frac{1}{64}a_{4} + \frac{1}{125}a_{5} = 64\]
+
+借助 \texttt{MATLAB} 可以计算得出，
+
+\[a_{1} = \frac{76}{9},a_{2} = - \frac{280}{9},a_{3} = 81,a_{4} = - \frac{832}{9},a_{5} = \frac{325}{9}\]
+
+则
+
+\[\ln x \leq \frac{76}{9}\sqrt{x} - \frac{280}{9}\sqrt{2x + 2} + 81\sqrt{3x + 6} - \frac{832}{9}\sqrt{4x + 12} + \frac{325}{9}\sqrt{5x + 20}\]
+
+代\(x = 2\)可以证明
+
+\begin{equation*}
+\ln 2 \leq \begin{cases}
+\ln x \leq \frac{76}{9}\sqrt{x} - \frac{280}{9}\sqrt{2x + 2} + 81\sqrt{3x + 6} - \frac{832}{9}\sqrt{4x + 12} + \frac{325}{9}\sqrt{5x + 20}, & \quad 0 < x < 1 \\
+\ln x \leq \frac{76}{9}\sqrt{x} - \frac{280}{9}\sqrt{2x + 2} + 81\sqrt{3x + 6} - \frac{832}{9}\sqrt{4x + 12} + \frac{325}{9}\sqrt{5x + 20}, & \quad x > 1
+\end{cases}
+\end{equation*}
+
+代入\(x = 2\)
+
+\[\ln 2 \approx 0.6927\]
+
+与\(\ln 2 \approx 0.6931471806\)相距很近
+
+\subsection{小结}
+
+本文大致交代了两种根式放缩方法，第一种是在原函数基础上通过根式加强不等式，第二种则是通过多个根式的线性拟合，本质上允许多重展开。
+限制点有：①根式容易带来无理数，存在误差。②第二种方法需要计算多个系数，可以通过矩阵解矩阵求解，但运算复杂。
+
+\section{系数加权的放缩}
+
+\subsection{两道港中深题目的引入}
+
+我们先来看两道题
+
+①\(x \in \lbrack 0,\frac{\pi}{2})\),\(\lambda\sin x + (1 - \lambda)\tan x \geq x\)
+求\(\lambda\)范围
+②\(x \in \lbrack 0,\frac{\pi}{2})\),\(\sin^{\lambda}x\tan^{1 - \lambda}x \geq x\)
+求\(\lambda\)范围
+
+原题是港中深自主招生题，实质是解决①②两个命题（感谢同桌夏阳供稿题）
+这里先直接给出答案 ①\(\frac{2}{3}\sin x + \frac{1}{3}\tan x \geq x\) 即
+\(0 \leq \lambda \leq \frac{2}{3}\)
+②\(\sin^{\frac{2}{3}}x\tan^{\frac{1}{3}}x \geq x\) 即
+\(0 \leq \lambda \leq \frac{2}{3}\)
+
+我们先思考为什么会出现这两个不等式?很显然,这两个不等式通过过将
+
+\(\sin x \leq x\)（\(0 \leq x \leq \frac{\pi}{2}\)）与 \(\tan x \geq x\)（\(0 \leq x \leq \frac{\pi}{2}\)）组合使不等式加强。不等式①是通过加法线性组合，不等式②是通过乘法组合。
+
+那么我们是否可以用相同的方式构造加强不等式?答案是可以
+
+\subsection{构造不等式}
+
+这里作者采用 \(\ln x \geq \frac{2(x - 1)}{x + 1}\)（\(x \geq 1\)）与 \(\ln x \leq \frac{1}{2}\left( x - \frac{1}{x} \right)\) 进行处理，是通过加法线性处理。
+
+令
+\begin{align*}
+f(x) &= \ln x - \left\lbrack \lambda\frac{2(x - 1)}{x + 1} + (1 - \lambda) \cdot \frac{1}{2}\left( x - \frac{1}{x} \right) \right\rbrack, \quad x \geq 1
+\end{align*}
+进行讨论。很显然 \(f(1) = 0\)，接下来讨论 \(f'(x)\)：
+\begin{align*}
+f'(x) &= \frac{(x - 1)\left( x^{2} + 4x + 1 \right)}{2x^{2}(x + 1)^{2}}\left( \lambda - 1 + \frac{2}{x + \frac{1}{x} + 4} \right), \quad x \geq 1
+\end{align*}
+则当 \(\lambda - 1 + \frac{2}{x + \frac{1}{x} + 4} = 0\) 即 \(\lambda = \frac{2}{3}\) 时
+\begin{align*}
+\ln x &< \frac{2}{3} \cdot \frac{2(x - 1)}{x + 1} + \frac{1}{6}\left( x - \frac{1}{x} \right), \quad x \geq 1
+\end{align*}
+代入 \(x = 2\) 得
+\[\ln 2 < \frac{25}{36} \approx 0.6944\]
+
+但是并不是所有的不等式都可以用这种方法加强。
+
+再通过乘法处理。令
+\begin{align*}
+g(x) &= \ln x - \left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack^{\lambda}\left\lbrack \frac{1}{2}\left( x - \frac{1}{x} \right) \right\rbrack^{1 - \lambda}
+\end{align*}
+可以得出
+\begin{align*}
+\ln x &< \left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack^{\frac{2}{3}}\left\lbrack \frac{1}{2}\left( x - \frac{1}{x} \right) \right\rbrack^{\frac{1}{3}}, \quad x \geq 1
+\end{align*}
+代入 \(x = 2\) 得
+\[\ln 2 < \frac{1}{\sqrt[3]{3}} \approx 0.6933\]
+
+显然不等式增强。
+
+但并不是所有的不等式都可以采取这种方式加强。例如,
+
+采用 \(\ln x \leq x - 1\) 与 \(\ln x \geq \frac{2(x - 1)}{x + 1}\) 构造 \(\varphi(x)\)：
+\begin{align*}
+\varphi(x) &= \frac{2\lambda(x - 1)}{x + 1} + (1 - \lambda)(x - 1) - \ln x, \quad x \geq 1
+\end{align*}
+得 \(\lambda = 1\)，显然没有起到加强效果。
+
+所以我们需要思考什么样的函数可以组合加强。
+
+\subsection{不等式分类}
+
+对于加法组合的不等式，令
+\begin{align*}
+\varphi_{1}(x) &= \frac{1 + \lambda}{2}f(x) + \frac{1 - \lambda}{2}g(x) - \ln x
+\end{align*}
+由于 \(\lim_{x \rightarrow 1}\varphi(x) = 0\)，分离变量后
+\begin{align*}
+\lambda &= \lim_{x \rightarrow 1}\frac{\left\lbrack g(x) - \ln x \right\rbrack + \left\lbrack f(x) - \ln x \right\rbrack}{\left\lbrack g(x) - \ln x \right\rbrack - \left\lbrack f(x) - \ln x \right\rbrack}
+\end{align*}
+
+对于乘法组合的不等式
+
+令
+\(\varphi_{2}(x) = \left\lbrack f(x) \right\rbrack^{\frac{1 + \lambda}{2}}\left\lbrack g(x) \right\rbrack^{\frac{1 - \lambda}{2}} - \ln x\)
+
+由于 \(\lim_{x \rightarrow 1}\varphi_{2}(x) = 0\)
+
+分离变量后
+
+\begin{align*}
+\lambda &= \lim_{x \rightarrow 1}\frac{\ln\left\lbrack \frac{g(x) - \ln x}{\ln x} + 1 \right\rbrack + \ln\left\lbrack \frac{f(x) - \ln x}{\ln x} + 1 \right\rbrack}{\ln\left\lbrack \frac{f(x) - \ln x}{\ln x} + 1 \right\rbrack - \ln\left\lbrack \frac{g(x) - \ln x}{\ln x} + 1 \right\rbrack}
+\end{align*}
+
+结果表明只有当
+\(\lim_{x \rightarrow 1}\left\lbrack g(x) - \ln x \right\rbrack\) 与
+\(\lim_{x \rightarrow 1}\left\lbrack f(x) - \ln x \right\rbrack\)
+是同阶无穷小时才可以加强。
+
+下结论给出部分不等式的无穷小级别
+
+\begin{itemize}
+    \item \textbf{一阶无穷小}
+
+    \begin{align*}
+        & x - 1 - \ln x = o(x - 1) \\
+        & 1 - \frac{1}{x} - \ln x = o(x - 1)
+    \end{align*}
+\end{itemize}
+
+\begin{itemize}
+    \item \textbf{二阶无穷小}
+
+    \begin{align*}
+        & \frac{2(x - 1)}{x + 1} - \ln x = o((x - 1)^2) \\
+        & \frac{1}{2}\left( x - \frac{1}{x} \right) - \ln x = o((x - 1)^2) \\
+        & \sqrt{x} - \frac{1}{\sqrt{x}} - \ln x = o((x - 1)^2)
+    \end{align*}
+\end{itemize}
+
+\begin{itemize}
+\item
+  三阶无穷小
+\end{itemize}
+
+\[\frac{(x - 1)(x + 5)}{4x + 2} - \ln x = o((x - 1)^3)\]
+
+\begin{itemize}
+    \item \textbf{四阶无穷小}
+
+    \begin{align*}
+        & \frac{1}{3}\left[ \frac{1}{2}\left( x - \frac{1}{x} \right) \right] + \frac{2}{3}\left[ \frac{2(x - 1)}{x + 1} \right] - \ln x = o((x - 1)^4) \\
+        & \left[ \frac{1}{2}\left( x - \frac{1}{x} \right) \right]^{\frac{1}{3}} \left[ \frac{2(x - 1)}{x + 1} \right]^{\frac{2}{3}} - \ln x = o((x - 1)^4) \\
+        & \ln\left( \frac{8x^{3} - 1}{3(x + 1)^{3}} \right) - \ln x = o((x - 1)^4)
+    \end{align*}
+\end{itemize}
+
+在之前演示中，可以发现我们成功将 \(\frac{2(x - 1)}{x + 1} - \ln x\) 与
+\(\frac{1}{2}\left( x - \frac{1}{x} \right) - \ln x\) 组合得到
+
+加强不等式，而对于\(- 1 + x - \ln x\)与\(\frac{2(x - 1)}{x + 1} - \ln x\)的组合失败了，原因在于
+
+\(\frac{2(x - 1)}{x + 1} - \ln x\)与\(\frac{1}{2}\left( x - \frac{1}{x} \right) - \ln x\)是同阶无穷小，与\(x - 1 - \ln x\)是不同阶无穷小
+
+\begin{remark}
+这一小节采用高数的符号，这里写\(f(x)\)为\(O(x - 1)\)是指\(\lim_{x \rightarrow 1}\frac{f(x)}{(x - 1)^{n}} = 0\)
+\end{remark}
+
+\subsection{小结}
+
+本章讲述基于现有不等式构造加强不等式的方法。从 \texttt{MATLAB} 的函数拟合效果来看的确很好，也达到我们预期效果放缩强度。同时细心的读者会发现，对于我们组合出的两个不等式
+
+\begin{align*}
+\varphi_{1}(x) &= \frac{1}{3}\left\lbrack \frac{1}{2}\left( x - \frac{1}{x} \right) \right\rbrack + \frac{2}{3}\left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack - \ln x \\
+\varphi_{2}(x) &= \left\lbrack \frac{1}{2}\left( x - \frac{1}{x} \right) \right\rbrack^{\frac{1}{3}}\left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack^{\frac{2}{3}} - \ln x
+\end{align*}
+均属于 \(O(x - 1)^{4}\)，也就是说 \(\varphi_{1}(x)\) 与 \(\varphi_{2}(x)\) 仍然可以进行再次组合，构造不等式。有兴趣的读者可以接着尝试。
+
+总而言之，此类方法是适用性极广的方法且效果显著，经常在模拟卷中出现。
+
+\section{数值积分}
+
+\subsection{梯形法则}
+
+在之前的章节我们注重于对强不等式的构造，在本章节我们将注意力放回到数值估算上。
+
+梯形法则顾名思义，它的主要思想是将曲线在区间上的图形近似为一条梯形的面积，从而由梯形面积公式来计算函数在某个区间的积分近似值。
+
+即我们认为\(\left( f(x) \geq 0,x \geq 0 \right)\)
+
+\[\frac{- m + n}{2}\left\lbrack f(m) + f(n) \right\rbrack \approx \int_{m}^{n}f(x)\,\diff x\]
+
+更特殊地，我们认为当\(f(x) \geq 0\)即\(f(x)\)是凹函数时
+
+\[\int_{m}^{n}f(x)\,\diff x \leq \frac{- m + n}{2}\left\lbrack f(m) + f(n) \right\rbrack\]
+
+下给出证明
+
+\[\int_{m}^{n}f(x)\,\diff x - \frac{n - m}{2}\left\lbrack f(m) + f(n) \right\rbrack \geq 0\]
+
+视\(n\)为主元
+
+令
+\(p(n) = \int_{m}^{n}f(x)\,\diff x - \frac{n - m}{2}\left\lbrack f(m) + f(n) \right\rbrack\)
+
+\begin{align*}
+p'(n) &= f(n) - \frac{f(n)}{2} - \frac{n - m}{2}f'(n) - \frac{f(n)}{2} \\
+&= \frac{1}{2}\left\lbrack f(n) - f(m) - (n - m)f'(n) \right\rbrack \\
+p''(n) &= \frac{1}{2}\left\lbrack f'(n) - f'(m) - nf''(n) \right\rbrack \\
+&= -nf''(n) < 0
+\end{align*}
+
+则 \(p'(n) < p'(m) = 0,p(n) < p(m) = 0\) 证毕。 则在这里，要证明
+\(\ln 2 < 0.7\) 可将 \(\ln 2\) 视为 \(\int_{1}^{2}\frac{1}{x}\,\diff x\)，则将
+\([1, 2]\) 区间分为 $n$ 个等长的子区间则可表示为
+
+\[\ln 2 = \int_{1}^{2}\frac{1}{x}\,\diff x < \frac{1}{2n}\left\lbrack 1 + 2\sum_{i = 1}^{n - 1}\frac{1}{\frac{i}{n} + \frac{1}{n}} + \frac{1}{2} \right\rbrack = \frac{3}{4n} + \sum_{i = 1}^{n - 1}\frac{1}{n + i}\]
+
+当 \(n = 2\)，\(\ln 2 < \frac{17}{24}\)；当 \(n = 3\)，\(\ln 2 < 0.7\)；当 \(n = 4\)，
+\(\ln 2 < \frac{1171}{1680} \approx 0.697\)。命题显然得证。这里是我们取
+\(f(x) = \frac{1}{x}\)，\([m, n] = [1, 2]\)。实际上
+\(\int_{1}^{2}f(x)\,\diff x = \ln 2\) 并不仅仅只有这一种组合，读者可以自行尝试
+
+\subsection{标准辛普森公式}
+
+我们反思梯形法，则实质上我们是把光滑的函数拟合为分段直线后积分，那么我们为什么一定要选择直线？是否可以选取三个点，拟合为二次函数？
+答案是可以。这便是标准辛普森公式的核心思想：在每相邻三个点之间，用一个二次多项式来近似原函数，从而估算积分。
+我们先考虑区间 \([x_0, x_2]\)，在区间上找二次函数逼近。设 \(x_0, x_1, x_2\)
+是均匀分布的点，间隔为 \(h\)：
+\begin{align*}
+x_{0} &= x_{1} + h \\
+x_{2} &= x_{0} + 2h
+\end{align*}
+
+则根据构造过这三点的二次函数
+
+\[P(x) = f\left( x_{0} \right)\frac{\left( x - x_{1} \right)\left( x - x_{2} \right)}{\left( x_{0} - x_{1} \right)\left( x_{0} - x_{2} \right)} + f\left( x_{1} \right)\frac{\left( x - x_{0} \right)\left( x - x_{2} \right)}{\left( x_{1} - x_{0} \right)\left( x_{1} - x_{2} \right)} + f\left( x_{2} \right)\frac{\left( x - x_{0} \right)\left( x - x_{1} \right)}{\left( x_{2} - x_{0} \right)\left( x_{2} - x_{1} \right)}\]
+
+令 \(x = x_{0} + ht\)（\(x_{1} \rightarrow t = 1\)，\(x_{2} \rightarrow t = 2\)），则
+\begin{align*}
+l_{0}(t) &= \frac{(t - 1)(t - 2)}{2} \\
+l_{1}(t) &= -t(t - 2) \\
+l_{2}(t) &= \frac{t(t - 1)}{2}
+\end{align*}
+则
+\begin{align*}
+\int_{x_{0}}^{x_{2}}P(x)\,\diff x &= h\left\lbrack f\left( x_{0} \right)\int_{0}^{2}l_{0}(t)\,\diff t + f\left( x_{1} \right)\int_{0}^{2}l_{1}(t)\,\diff t + f\left( x_{2} \right)\int_{0}^{2}l_{2}(t)\,\diff t \right\rbrack \\
+&= \frac{h}{3}\left\lbrack f\left( x_{0} \right) + 2f\left( x_{1} \right) + f\left( x_{2} \right) \right\rbrack
+\end{align*}
+当整个区间\([a,b]\)分为\(n\)个小区间时，由于每个抛物线需要2个小区间，所以\(n\)为偶数又则容易得到
+
+\[\int_{a}^{b}f(x)\,\diff x = \frac{h}{3}\left\lbrack f\left( x_{0} \right) + f\left( x_{n} \right) + 2\left( f\left( x_{2} \right) + f\left( x_{4} \right) + \cdots \right) + 4\left( f\left( x_{1} \right) + f\left( x_{3} \right) + \cdots \right) \right\rbrack\]
+
+一般认为，若\(f''(x) < 0\)，估算值 \textless{}
+实际值，若\(f''(x) > 0\)，估算值 \textgreater{} 实际值
+这里我们选取 \(f(x) = \frac{1}{x}\)，\(a = 1\)，\(b = 2\)，\(h = \frac{1}{4}\) 代入
+\begin{align*}
+\ln 2 = \int_{1}^{2}\frac{1}{x}\,\diff x &< \frac{8.319}{12} \approx 0.69325
+\end{align*}
+与 \(\ln 2 \approx 0.69314\) 相当接近。
+
+\subsection{三段复合辛普森方法}
+
+前一节介绍标准辛普森公式，要求区间被分割数为偶数。事实上，辛普森家庭中存在处理奇数段，尤其是三的倍数段的方法，这便是三段复合辛普森方法。其方法与标准公式唯一不同点，是在三个等距点上构造三次多项式。具体推导方式与前种相似，这里不过多赘述。
+公式为
+
+\[\int_{a}^{b}f(x)\,\diff x = \frac{3h}{8}\left\lbrack f\left( x_{0} \right) + 3f\left( x_{1} \right) + 3f\left( x_{2} \right) + f\left( x_{3} \right) \right\rbrack\]
+
+代入有
+
+\[\ln 2 = \int_{1}^{2}\frac{1}{x}\,\diff x \approx \frac{3 \cdot \frac{1}{3}}{8}\left\lbrack f(1) + 3f\left( \frac{4}{3} \right) + 3f\left( \frac{5}{3} \right) + f(2) \right\rbrack = \frac{5.35}{8} = 0.69375\]
+
+相当接近标准值
+
+\subsection{小结}
+
+本章介绍了三种估值方式，核心是借助积分的几何意义估值，便利之处在于结果为有理数便于估值计算。实际上，这几种方法均可用于编程，适合计算难以给出解析解的定积分上。
+
+\section{级数展开}
+
+\subsection{泰勒展开}
+
+从本章开始，笔者要开始介绍一些陌生的老朋友。泰勒展开常常出现在模拟卷中。笔者在查阅文献时部分作者认为泰勒展开能是高中必修知识。尽管有些偏不被负，但也可以看出泰勒展开的重要意义。
+
+那么泰勒展开是如何得到的？我们要用一个 $n$ 次多项式 \(P_{n}(x)\) 在点 \(x_{0}\) 附近表示 \(f(x)\)，那么它们在点 \(x_{0}\) 附近的各阶导数也必然相等
+
+为求\(P_{n}(x)\)表达式，设
+
+\[P_{n}(x) = a_{0} + a_{1}\left( x - x_{0} \right) + \cdots + a_{n - 1}\left( x - x_{0} \right)^{n - 1} + a_{n}\left( x - x_{0} \right)^{n}\]
+
+则各阶导数为
+
+\begin{align*}
+P_{n}^{(k)}\left( x_{0} \right) &= k!a_{k}, \quad k = 0,1,\cdots,n \\
+a_{k} &= \frac{f^{(k)}\left( x_{0} \right)}{k!}, \quad k = 0,1,\cdots,n \\
+P_{n}(x) &= f\left( x_{0} \right) + \frac{f'\left( x_{0} \right)}{1!}\left( x - x_{0} \right) + \cdots + \frac{f^{(n)}\left( x_{0} \right)}{n!}\left( x - x_{0} \right)^{n} \\
+&= \sum_{k = 0}^{n}\frac{f^{(k)}\left( x_{0} \right)}{k!}\left( x - x_{0} \right)^{k}
+\end{align*}
+
+那么由泰勒定理可得
+
+\[f(x) = O\left( x - x_{0} \right)^{n} + \sum_{k = 0}^{n}\frac{f^{(k)}\left( x_{0} \right)}{k!}\left( x - x_{0} \right)^{k}\]
+
+或
+\(f(x) = \frac{f^{(n + 1)}(\xi)}{(n + 1)!}\left( x - x_{0} \right)^{n + 1} + \sum_{k = 0}^{n}\frac{f^{(k)}\left( x_{0} \right)}{k!}\left( x - x_{0} \right)^{k}\quad\left( \xi \in \left\lbrack x_{0},x \right\rbrack \right)\)
+
+前者 $O((x - x_0)^n)$ 称为佩亚诺余项，后者 \(\frac{f^{(n+1)}(\xi)}{(n + 1)!}(x - x_0)^{n + 1}\) 称为拉格朗日余项。
+
+证明略，感兴趣的读者可自行证明
+
+\subsection{麦克劳林公式}
+
+麦克劳林公式实质是 \(x_0=0\) 时带有拉格朗日余项的泰勒展开（其实麦克劳林也认为这毫无新意，但是历史仍固执地将一部分功劳给了麦克劳林），下给出 \(\ln(1+x)\) 与 \(\mathrm{e}^{x}\) 的麦克劳林公式：
+
+\[\ln(1 + x) = x - \frac{1}{2}x^{2} + \frac{1}{3}x^{3} - \cdots + ( - 1)^{n - 1}\frac{1}{n}x^{n} + ( - 1)^{n}\frac{1}{n + 1}\frac{1}{(1 + \theta x)^{n + 1}}x^{n + 1}\]
+
+其中 \(\theta \in (0,1)\)，\(x > -1\)
+
+\[\ee^{x} = 1 + x + \frac{1}{2!}x^{2} + \cdots + \frac{1}{n!}x^{n} + \frac{\ee^{\theta x}}{(n + 1)!}x^{n + 1}\]
+
+那么我们对 \(\ln 2\) 进行估值则有
+
+\[\ln 2 = \sum_{n = 1}^{\infty}( - 1)^{n - 1}\frac{1}{n}\]
+
+那么往里面代入数值欣喜发现，当 \(i=73\) 时，\(\ln 2 < 0.69949 < 0.7\)（上述结果来自 CASIO fx-991CN）
+
+方法不错，但是需要计算较多阶数，原因在于此公式的收敛速度极慢，因此需要改进
+
+我们可以取 \(\ln(1+x)\) 在 \(x=2\) 处的泰勒展开
+
+\[\ln x = \ln 2 + \frac{1}{2}(x - 2) - \frac{1}{4}\frac{(x - 2)^{2}}{2!} + \frac{1}{4}\frac{(x - 2)^{3}}{3!} - \cdots\]
+
+令 \(x = \frac{1}{2}\) 时，则有
+\begin{align*}
+-\ln 2 &= \ln 2 - \frac{1}{2} \times \frac{3}{2} - \frac{1}{4} \times \frac{\left( \frac{3}{4} \right)^{2}}{2!} - \cdots
+\end{align*}
+即
+\[\ln 2 = \frac{1}{2}\sum_{n = 1}^{\infty}\frac{1}{n}\left( \frac{3}{4} \right)^{n}\]
+收敛速度比前者快得多：
+\[\ln 2 > \frac{1}{2}\sum_{n = 1}^{20}\frac{1}{n}\left( \frac{3}{4} \right)^{n} = 0.692946\]
+
+而 $\ln 2 \approx 0.6931$，误差极近
+
+其实还有一种数形结合的方法，我们将 \(x=\ln 2\) 看作 \(\ee^{x}=2\) 的解
+
+而\(\ee^{0.7} > 1 + 0.7 + \frac{1}{2} \times {0.7}^{2} + \frac{1}{6} \times {0.7}^{3} = \frac{12013}{6000} > 2\)
+
+则可证明出 \(\ln 2 < 0.7\)
+
+\subsection{反双曲正切函数的麦克劳林公式}
+由2024年新旧课标一卷的导数题引入。 最后需要证明不等式为 \((1 \leq x)\)
+
+\[\ln\frac{x}{2 - x} - 2(x - 1) - \frac{2}{3}(x - 1)^{3} \geq 0\]
+
+令 \(x = 1 + t\)
+
+\[\ln\frac{1 + t}{1 - t} - 2t - \frac{2}{3}t^{3} \geq 0\]
+
+细心的读者可以发现
+
+\begin{align*}
+\ln(1 + t) &= t - \frac{1}{2}t^{2} + \frac{1}{3}t^{3} - \cdots \\
+\ln(1 - t) &= -t - \frac{1}{2}t^{2} - \frac{1}{3}t^{3}
+\end{align*}
+
+则
+
+\[\ln\left( \frac{1 + t}{1 - t} \right) = 2t + \frac{2}{3}t^{3} + \frac{2}{5}t^{5} + \cdots\]
+
+这便是这道导数压轴题的出处，函数
+\(\ln\left( \frac{1 + x}{1 - x} \right)\) 的麦克劳林展开的本质是
+\(\ln(1 + x)\) 表麦克劳林展开的复合。我们把
+\(\ln\left( \frac{1 + x}{1 - x} \right)\) 叫做反双曲正切函数的，记作
+\(\operatorname{arctanh}x\)，即
+
+\[\operatorname{arctanh}x = \frac{1}{2}\ln\left( \frac{1 + x}{1 - x} \right)\]
+
+则
+
+\begin{align*}
+\ln 2 &= 2\operatorname{arctanh}\frac{1}{3} = 2\sum_{n = 0}^{\infty}\frac{1}{2n + 1}\left( \frac{1}{3} \right)^{2n + 1}
+\end{align*}
+此式收敛速度较快：
+\[\ln 2 > 2\sum_{n = 0}^{3}\frac{1}{2n + 1}\left( \frac{1}{3} \right)^{2n + 1} = 0.693134\]
+
+\subsection{帕德近似}
+
+从泰勒展开到泰勒展开，就必须要提及帕德近似。由于泰勒展开存在局限性，在某些时候收敛速度过慢，因此数学家们思考：能不能用一个有理函数来代替这个泰勒多项式？
+这便是逼近帕德近似最初动机。
+
+帕德近似的思想是构造一个有理函数 \(R(x) = \frac{P_{r}(x)}{Q_{s}(x)}\)
+(\(r,s\)分别是分子、分母多项式次数)
+
+使得 \(f(x) - R(x) = O\left( x^{r + s + 1} \right)\)
+
+即有理函数在\(x = 0\)附近与原函数泰勒展开一致到\(r + s\)项为止
+
+我们计算 $[2/2]$ 型的 \(\ln(x + 1)\) 的帕德近似
+
+令
+\(\ln(x + 1) = x - \frac{1}{2}x^{2} + \frac{1}{3}x^{3} - \frac{1}{4}x^{4} + O\left( x^{5} \right) \sim \frac{a_{0} + a_{1}x + a_{2}x^{2}}{b_{0} + b_{1}x + b_{2}x^{2}}\)
+
+对于右边等式处理
+\(\left( b_{0} + b_{1}x + b_{2}x^{2} \right)\left( x - \frac{1}{2}x^{2} + \frac{1}{3}x^{3} - \frac{1}{4}x^{4} \right) = a_{0} + a_{1}x + a_{2}x^{2} + O\left( x^{3} \right) + O\left( x^{4} \right)\)
+(更高阶忽略)
+
+\begin{align*}
+b_{0} &= a_{1} \\
+b_{1} - \frac{1}{2}b_{0} &= a_{2} \\
+a_{0} &= 0 \\
+\frac{1}{3}b_{0} - \frac{1}{2}b_{1} + b_{2} &= 0 \\
+\frac{1}{3}b_{1} - \frac{1}{2}b_{2} - \frac{1}{4}b_{0} &= 0
+\end{align*}
+得
+\begin{align*}
+b_{2} &= \frac{1}{6}, \quad b_{1} = 1, \quad b_{0} = 1 \\
+a_{0} &= 0, \quad a_{2} = \frac{1}{2}, \quad a_{1} = 1
+\end{align*}
+
+代入 \(\ln(x + 1) \sim \frac{3x^{2} + 6x}{x^{2} + 6x + 6}\)
+
+易证明：当 \(x > 0\)，\(\ln(x + 1) \geq \frac{3x^{2} + 6x}{x^{2} + 6x + 6}\)；
+当 \(-1 < x < 0\)，\(\ln(x + 1) < \frac{3x^{2} + 6x}{x^{2} + 6x + 6}\)。
+
+则当 \(x = 1\) 时 \(\ln 2 \geq \frac{9}{13}\)。
+
+同理对 \(\ee^{x}\) 研究，可以得到
+\[\ee^{x} \geq \frac{x^{2} + 6x + 12}{x^{2} - 6x + 12}, \quad x > 0\]
+代入 \(x = \ln 2\) 可得
+\[\ln 2 \leq 9 - \sqrt{69} \approx 0.69337\]
+
+\subsection{连分式展开}
+
+连分式展开最早由19世纪希腊数学家提出。\(\ln(1 + x)\) 的连分式展开式由拉格朗日提出，下面给出结论与证明
+
+\[
+\ln(1 + x) = \cfrac{x}{1 + \cfrac{1^{2}x}{2 + \cfrac{1^{2}x}{3 + \cfrac{2^{2}x}{4 + \cfrac{2^{2}x}{5 + \cfrac{3^{2}x}{6 + \cfrac{3^{2}x}{7 + \cdots}}}}}}}
+\]
+
+证明设（感谢知乎张成） 设
+
+\[F(a,b,c,z) = 1 + \frac{ab}{c}z + \frac{a(a + 1)b(b + 1)}{2!(c + 1)}z^{2} + \frac{a(a + 1)(a + 2)b(b + 1)(b + 2)}{3!(c + 1)(c + 2)}z^{3} + \cdots\]
+
+则有
+
+\begin{align*}
+F(1,1,2, -z) &= \frac{1}{2}\ln(1 + z) \quad \text{（泰勒展开）}
+\end{align*}
+比较交与前系数可证
+\begin{align*}
+F(a,b,c,z) &= F(a,b + 1,c + 1,z) - \frac{a(c - b)}{c(c + 1)}zF(a + 1,b + 1,c + 2,z) \\
+\frac{F(a,b + 1,c + 1,z)}{F(a,b,c,z)} &= \frac{1}{1 - \frac{a(c - b)}{c(c + 1)}z\frac{F(a + 1,b + 1,c + 2,z)}{F(a,b + 1,c + 1,z)}}
+\end{align*}
+
+交换 \(a\) 和 \(b\)，然后用 \(b + 1,c + 1\) 代替 \(b\) 和 \(c\) 得到等式
+\begin{align*}
+\frac{F(a + 1,b + 1,c + 2,z)}{F(a,b + 1,c + 1,z)} &= \frac{1}{1 - \frac{(b + 1)(c - a + 1)}{(c + 1)(c + 2)}z\frac{F(a + 1,b + 2,c + 3,z)}{F(a + 1,b + 1,c + 2,z)}}
+\end{align*}
+同样若将 \(a,b,c\) 替代为 \(a + 1,b + 1,c + 2\) 便可重复迭代得到高斯连分式
+
+\[\frac{F(a,b + 1,c + 1,z)}{F(a,b,c,z)} = \frac{1}{1 - \frac{a(c - b)}{c(c + 1)}z\left( 1 - \frac{(b + 1)(c - a + 1)}{(c + 1)(c + 2)}z\left( 1 - \frac{(a + 1)(c - b + 1)}{(c + 2)(c + 3)}z\left( 1 - \frac{(b + 2)(c - a + 2)}{(c + 3)(c + 4)}z - \cdots \right) \right) \right)}\]
+
+令 \(a = 1\)，\(b = 0\)，\(c = -2\)，\(z = -z\)，则
+\[\ln(1 + z) = \frac{z}{1 + \frac{1^{2}z}{2 + \frac{1^{2}z}{3 + \frac{2^{2}z}{4 + \cdots}}}}\]
+证毕。当 \(x = 1\) 时代入
+\[\ln 2 = \frac{1}{1 + \frac{1^{2}}{2 + \frac{1^{2}}{3 + \frac{2^{2}}{4 + \cdots}}}}\]
+计算到 3 阶
+\[\ln 2 < \frac{1}{1 + \frac{1}{2 + \frac{1}{3}}} = \frac{7}{10}\]
+证毕。
+
+\subsection{小结}
+
+本章大致讲了多种级数展开，通过各种方式对\(\ln 2\)进行有理数逼近，对\(\ln 2\)给出许多有效的逼近，贯穿始终的正是我们``高中必修''的泰勒展开。本章是完全高等数学的内容，或显晦涩，望读者理解。
+
+% ==================== Backmatter ====================
+
+\section*{致谢}
+\addcontentsline{toc}{section}{致谢}
+
+任何美好，都会有结束的时候。现在为未来留下的正是美好的过去罢了。
+\(\ln 2 < 0.7\)的证明或许简单，但内部的逻辑并不简单。文章一点一点从高中水平走到高等数学的门槛，也许便是印证。
+
+\begin{itemize}
+    \item 感谢何其多老师的鼓励和支持，正是老师的启发让我有写完的动力。
+    \item 感谢同桌夏阳提供的题目与改进的意见。
+    \item 感谢陆奕冰同学、夏屹晨同学、赵志鹏同学等提的读者反馈，为这篇文章提供宝贵意见。
+    \item 感谢所有为这篇文章提供帮助的人。
+\end{itemize}
+
+受限于作者知识，这篇文章多有不足，还望读者斧正。
+
+\end{document}
