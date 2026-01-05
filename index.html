@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="笔者 1molchuan">
+<meta name="dcterms.date" content="2026-01-05">
+
+<title>ln 2 &lt; 0.7 的估值与探索 – ln 2</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">ln 2</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#写在前面" id="toc-写在前面" class="nav-link active" data-scroll-target="#写在前面">写在前面</a></li>
+  <li><a href="#切线放缩" id="toc-切线放缩" class="nav-link" data-scroll-target="#切线放缩"><span class="header-section-number">1</span> 切线放缩</a>
+  <ul class="collapse">
+  <li><a href="#基本的切线放缩切点改变" id="toc-基本的切线放缩切点改变" class="nav-link" data-scroll-target="#基本的切线放缩切点改变"><span class="header-section-number">1.1</span> 基本的切线放缩（切点改变）</a></li>
+  <li><a href="#基本不等式放缩取点改变" id="toc-基本不等式放缩取点改变" class="nav-link" data-scroll-target="#基本不等式放缩取点改变"><span class="header-section-number">1.2</span> 基本不等式放缩（取点改变）</a></li>
+  <li><a href="#小结" id="toc-小结" class="nav-link" data-scroll-target="#小结"><span class="header-section-number">1.3</span> 小结</a></li>
+  </ul></li>
+  <li><a href="#积分构造" id="toc-积分构造" class="nav-link" data-scroll-target="#积分构造"><span class="header-section-number">2</span> 积分构造</a>
+  <ul class="collapse">
+  <li><a href="#不等式加强积分构造" id="toc-不等式加强积分构造" class="nav-link" data-scroll-target="#不等式加强积分构造"><span class="header-section-number">2.1</span> 不等式加强（积分构造）</a>
+  <ul class="collapse">
+  <li><a href="#构造推导" id="toc-构造推导" class="nav-link" data-scroll-target="#构造推导">1. 构造推导</a></li>
+  <li><a href="#不等式加强证明讨论-x-1-段" id="toc-不等式加强证明讨论-x-1-段" class="nav-link" data-scroll-target="#不等式加强证明讨论-x-1-段">2. 不等式加强证明（讨论 <span class="math inline">\(x &gt; 1\)</span> 段）</a></li>
+  <li><a href="#总结积分构造变换-s" id="toc-总结积分构造变换-s" class="nav-link" data-scroll-target="#总结积分构造变换-s">3. 总结：积分构造变换 <span class="math inline">\(S\)</span></a></li>
+  </ul></li>
+  <li><a href="#更一般的不等式积分构造" id="toc-更一般的不等式积分构造" class="nav-link" data-scroll-target="#更一般的不等式积分构造"><span class="header-section-number">2.2</span> 更一般的不等式积分构造</a></li>
+  <li><a href="#小结-1" id="toc-小结-1" class="nav-link" data-scroll-target="#小结-1"><span class="header-section-number">2.3</span> 小结</a></li>
+  </ul></li>
+  <li><a href="#根式加强不等式" id="toc-根式加强不等式" class="nav-link" data-scroll-target="#根式加强不等式"><span class="header-section-number">3</span> 根式加强不等式</a>
+  <ul class="collapse">
+  <li><a href="#引用根式加强函数补全" id="toc-引用根式加强函数补全" class="nav-link" data-scroll-target="#引用根式加强函数补全"><span class="header-section-number">3.1</span> 引用根式加强函数补全</a></li>
+  <li><a href="#根式函数拟合" id="toc-根式函数拟合" class="nav-link" data-scroll-target="#根式函数拟合"><span class="header-section-number">3.2</span> 根式函数拟合</a></li>
+  <li><a href="#小结-2" id="toc-小结-2" class="nav-link" data-scroll-target="#小结-2"><span class="header-section-number">3.3</span> 小结</a></li>
+  </ul></li>
+  <li><a href="#系数加权的放缩" id="toc-系数加权的放缩" class="nav-link" data-scroll-target="#系数加权的放缩"><span class="header-section-number">4</span> 系数加权的放缩</a>
+  <ul class="collapse">
+  <li><a href="#两道港中深题目的引入" id="toc-两道港中深题目的引入" class="nav-link" data-scroll-target="#两道港中深题目的引入"><span class="header-section-number">4.1</span> 两道港中深题目的引入</a></li>
+  <li><a href="#构造不等式" id="toc-构造不等式" class="nav-link" data-scroll-target="#构造不等式"><span class="header-section-number">4.2</span> 构造不等式</a></li>
+  <li><a href="#不等式分类" id="toc-不等式分类" class="nav-link" data-scroll-target="#不等式分类"><span class="header-section-number">4.3</span> 不等式分类</a></li>
+  <li><a href="#小结-3" id="toc-小结-3" class="nav-link" data-scroll-target="#小结-3"><span class="header-section-number">4.4</span> 小结</a></li>
+  </ul></li>
+  <li><a href="#数值积分" id="toc-数值积分" class="nav-link" data-scroll-target="#数值积分"><span class="header-section-number">5</span> 数值积分</a>
+  <ul class="collapse">
+  <li><a href="#梯形法则" id="toc-梯形法则" class="nav-link" data-scroll-target="#梯形法则"><span class="header-section-number">5.1</span> 梯形法则</a></li>
+  <li><a href="#标准辛普森公式" id="toc-标准辛普森公式" class="nav-link" data-scroll-target="#标准辛普森公式"><span class="header-section-number">5.2</span> 标准辛普森公式</a></li>
+  <li><a href="#三段复合辛普森方法" id="toc-三段复合辛普森方法" class="nav-link" data-scroll-target="#三段复合辛普森方法"><span class="header-section-number">5.3</span> 三段复合辛普森方法</a></li>
+  <li><a href="#小结-4" id="toc-小结-4" class="nav-link" data-scroll-target="#小结-4"><span class="header-section-number">5.4</span> 小结</a></li>
+  </ul></li>
+  <li><a href="#级数展开" id="toc-级数展开" class="nav-link" data-scroll-target="#级数展开"><span class="header-section-number">6</span> 级数展开</a>
+  <ul class="collapse">
+  <li><a href="#泰勒展开" id="toc-泰勒展开" class="nav-link" data-scroll-target="#泰勒展开"><span class="header-section-number">6.1</span> 泰勒展开</a></li>
+  <li><a href="#麦克劳林公式" id="toc-麦克劳林公式" class="nav-link" data-scroll-target="#麦克劳林公式"><span class="header-section-number">6.2</span> 麦克劳林公式</a></li>
+  <li><a href="#反双曲正切函数的麦克劳林公式" id="toc-反双曲正切函数的麦克劳林公式" class="nav-link" data-scroll-target="#反双曲正切函数的麦克劳林公式"><span class="header-section-number">6.3</span> 反双曲正切函数的麦克劳林公式</a></li>
+  <li><a href="#帕德近似" id="toc-帕德近似" class="nav-link" data-scroll-target="#帕德近似"><span class="header-section-number">6.4</span> 帕德近似</a></li>
+  <li><a href="#连分式展开" id="toc-连分式展开" class="nav-link" data-scroll-target="#连分式展开"><span class="header-section-number">6.5</span> 连分式展开</a></li>
+  <li><a href="#小结-5" id="toc-小结-5" class="nav-link" data-scroll-target="#小结-5"><span class="header-section-number">6.6</span> 小结</a></li>
+  </ul></li>
+  <li><a href="#致谢" id="toc-致谢" class="nav-link" data-scroll-target="#致谢">致谢</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">ln 2 &lt; 0.7 的估值与探索</h1>
+<p class="subtitle lead">一篇陪伴我一年的文章</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>笔者 1molchuan </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 5, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="center">
+<div class="minipage">
+<p><em>“温斯顿斟满酒杯，说：‘过去更重要。’”</em></p>
+<p>—— 乔治·奥威尔《1984》</p>
+</div>
+</div>
+<section id="写在前面" class="level1 unnumbered">
+<h1 class="unnumbered">写在前面</h1>
+<p>第二次提笔，准备写下这篇陪伴我一年的文章。第一本送给了珍视的过去，也化作了过去，流下的仅是回忆罢了。当我跑过思源湖的星星灯火，我也穿梭进了回忆，在封存的记忆中找到了想再写一遍的愿望。或许我只是一个活在过去的幽魂。</p>
+<p>重温过去，第一篇文章写在前同桌偶然打错的 <span class="math inline">\(\ln 2\)</span> 之后。至此 <span class="math inline">\(\ln 2 &lt; 0.7\)</span> 的命题，或对 <span class="math inline">\(\ln 2\)</span> 的估值便成了我高中愉快的印记。也正是这一命题，让我看见高数代数背后的逻辑思路，或许这是美的。</p>
+<p>我曾质疑我这一爱好是否合理。但有人有一天告诉我：“你真觉得你没有你喜欢的东西吗？”我突然明白，爱好本身没有合理与否，不打扰他人，做自己喜欢的事，这就是正常的爱好。</p>
+<p>所以犹豫再三，再一次提笔，重新写下这篇文章，可能想为之前的文章写下一个句号，也可能是为我的记忆作序……</p>
+</section>
+<section id="切线放缩" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 切线放缩</h1>
+<section id="基本的切线放缩切点改变" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="基本的切线放缩切点改变"><span class="header-section-number">1.1</span> 基本的切线放缩（切点改变）</h2>
+<p>高中阶段，教科书中给出不等式</p>
+<p><span class="math display">\[\ln x \leq x - 1\quad \mathrm{e}^{x} \geq x + 1\]</span></p>
+<p>证明简单，这里就不过多阐述。</p>
+<p>回到这个不等式本身，我们是如何发现这个式的。很明显，切线放缩 <span class="math inline">\(y = x + 1\)</span> 作为 <span class="math inline">\(y = \ln x\)</span> 的切线。<span class="math inline">\(y = x + 1\)</span> 作为 <span class="math inline">\(y = \mathrm{e}^{x}\)</span> 的切线。那么一般地，什么函数我们可以进行切线放缩？</p>
+<p>答案是凸函数或凹函数（即 <span class="math inline">\(f(x)\)</span> 恒大于 0 或 <span class="math inline">\(f(x)\)</span> 恒小于 0）。以 <span class="math inline">\(\ln x\)</span> 为例，</p>
+<p>令 <span class="math inline">\(f(x) = \ln x\)</span>，<span class="math inline">\(f'(x) = \frac{1}{x}\)</span>，<span class="math inline">\(f''(x) = -\frac{1}{x^{2}} &lt; 0\)</span> 显然 <span class="math inline">\(\ln x\)</span> 是凹函数（这里的凹函数不同于凸函数反转中的凹函数）。那么对于 <span class="math inline">\(\ln x\)</span> 上任意一点 <span class="math inline">\(\left( x_{0},\ln x_{0} \right)\)</span> 都有</p>
+<p><span class="math display">\[\ln x \leq \frac{1}{x_{0}}\left( x - x_{0} \right) + \ln x_{0}\]</span></p>
+<p>这里我们需要代入 <span class="math inline">\(x=2\)</span>，倘若我们所取切点 <span class="math inline">\(x_0\)</span> 越接近 2，那么不等式越精确。 这里我们取 <span class="math inline">\(x_0 = \mathrm{e}^{-\frac{2}{3}}\)</span>（由于 <span class="math inline">\(\mathrm{e}^{2} \approx 7.389\)</span>，<span class="math inline">\(2^{3} \approx 8\)</span>）代入 <span class="math inline">\(x=2\)</span> 得</p>
+<p><span class="math display">\[\ln 2 \leq 2\mathrm{e}^{\frac{2}{3}} - \frac{1}{3} \approx 0.6933009\]</span></p>
+<p>显然这相当精确</p>
+</section>
+<section id="基本不等式放缩取点改变" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="基本不等式放缩取点改变"><span class="header-section-number">1.2</span> 基本不等式放缩（取点改变）</h2>
+<p>在上一小节中我们初步尝试了改变的切点，获得了针对 <span class="math inline">\(x=2\)</span> 的不等式，那么我们是否可以改变取点，在不改变切线不等式的基础上完成比较精准的方式？答案当然是肯定，即只利用 <span class="math inline">\(\ln x &lt; x - 1\)</span> 完成对 <span class="math inline">\(\ln 2\)</span> 较精准估值。我们可以利用 <span class="math inline">\(\ln x\)</span> 的性质：① <span class="math inline">\(\ln x^{n} = n \ln x\)</span> (<span class="math inline">\(x &gt; 0\)</span>)；② <span class="math inline">\(\ln ab = \ln a + \ln b\)</span>。</p>
+<p>那么我可以借助 2, <span class="math inline">\(\mathrm{e}\)</span> 和根号构造一个接近于 1 的不等式数字让不等式发挥最大作用，这里可以代入 <span class="math inline">\(x = \frac{\mathrm{e}^{2}}{8}\)</span> 和 <span class="math inline">\(x = \sqrt{\frac{\mathrm{e}^{2}}{8}}\)</span> 得</p>
+<p><span class="math display">\[\begin{align*}
+\ln 2 &amp;&lt; \frac{8 + \mathrm{e}^{2}}{3\mathrm{e}^{2}} \approx 0.694 \\
+\ln 2 &amp;&lt; \frac{4\sqrt{\mathrm{e}}}{3\mathrm{e}} \approx 0.6936
+\end{align*}\]</span></p>
+<p>确实相当精确了。</p>
+</section>
+<section id="小结" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="小结"><span class="header-section-number">1.3</span> 小结</h2>
+<p>本节我们并没有专注于升级我们的不等式，而是借助 <span class="math inline">\(\ln x\)</span> 的性质对 <span class="math inline">\(\ln 2\)</span> 进行估值。但是也需要承认它存在局限性。它还是需要对 <span class="math inline">\(\mathrm{e}\)</span> 值和一些无理数值进行估计。倘若改变的估计的数值，可能并不好取点。因此这类方法失去了自己的一部分普遍性。</p>
+</section>
+</section>
+<section id="积分构造" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> 积分构造</h1>
+<section id="不等式加强积分构造" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="不等式加强积分构造"><span class="header-section-number">2.1</span> 不等式加强（积分构造）</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>构造 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>构造基础：构造 <span class="math inline">\(f(x)\)</span>，使得 <span class="math inline">\(f(x) \geq \ln x\)</span>，当且仅当 <span class="math inline">\(x=1\)</span> 时取等。</p>
+<ul>
+<li><p>在 <span class="math inline">\((0,1]\)</span> 上，<span class="math inline">\(f'(x) \leq \frac{1}{x}\)</span>；</p></li>
+<li><p>在 <span class="math inline">\([1, +\infty)\)</span> 上，<span class="math inline">\(f'(x) \geq \frac{1}{x}\)</span>。</p></li>
+</ul>
+<p><span class="math inline">\(f(x)\)</span> 在 <span class="math inline">\((0, +\infty)\)</span> 上连续可导。则构造函数令 <span class="math inline">\([P(x)]' = f(x)\)</span>（注：本质是求不定积分）。</p>
+</div>
+</div>
+<section id="构造推导" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="构造推导">1. 构造推导</h3>
+<p>记符号 <span class="math inline">\(\sim\)</span> 代表比较关系：</p>
+<p><span class="math display">\[\begin{align*}
+    f(x) &amp;\sim \ln x \\
+    \Rightarrow P(x) - P(1) - 1 &amp;\sim x\ln x - x \quad \text{（$-P(1)-1$ 用于调整系数使 $x=1$ 时取等）} \\
+    = 1 + \frac{P(x) - P(1) - 1}{x} &amp;\sim \ln x
+\end{align*}\]</span></p>
+<p>设辅助函数 <span class="math inline">\(g(x)\)</span>：</p>
+<p><span class="math display">\[\begin{align*}
+    \text{令 } \frac{g(x)}{x} &amp;= \frac{P(x)}{x} + 1 - \frac{P(1) + 1}{x} - \ln x \\
+    \Rightarrow g(x) &amp;= P(x) + x - P(1) - 1 - x\ln x \\
+    \Rightarrow g'(x) &amp;= f(x) - \ln x \geq 0
+\end{align*}\]</span></p>
+<p>则在 <span class="math inline">\((0,1]\)</span> 上 <span class="math inline">\(g(x) \leq 0\)</span>，在 <span class="math inline">\([1, +\infty)\)</span> 上 <span class="math inline">\(g(x) \geq 0\)</span>。即得到：</p>
+<p><span class="math display">\[\begin{cases}
+    \ln x \geq \frac{P(x)}{x} + 1 - \frac{P(1)}{x}, &amp; 0 &lt; x \leq 1 \\
+    \ln x \leq \frac{P(x)}{x} + 1 - \frac{P(1) + 1}{x}, &amp; x &gt; 1
+\end{cases}\]</span></p>
+</section>
+<section id="不等式加强证明讨论-x-1-段" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="不等式加强证明讨论-x-1-段">2. 不等式加强证明（讨论 <span class="math inline">\(x &gt; 1\)</span> 段）</h3>
+<p>令 <span class="math inline">\(\frac{h(x)}{x} = f(x) - \frac{P(x)}{x} + 1 + \frac{P(1) + 1}{x}\)</span>，则有：</p>
+<p><span class="math display">\[\begin{align*}
+    h(x) &amp;= xf(x) - P(x) - x + P(1) + 1 \\
+    \Rightarrow h'(x) &amp;= f(x) + xf'(x) - f(x) - 1 \\
+    &amp;= xf'(x) - 1 \geq 0 \quad \text{（因为 $x&gt;1$ 时 $f'(x) \geq \frac{1}{x}$）}
+\end{align*}\]</span> 则 <span class="math inline">\(h(x) \geq 0\)</span>，即不等式得到加强。</p>
+</section>
+<section id="总结积分构造变换-s" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="总结积分构造变换-s">3. 总结：积分构造变换 <span class="math inline">\(S\)</span></h3>
+<p>以上是构造基本原理，定义积分构造的变换为 <span class="math inline">\(S\)</span>：</p>
+<p><span class="math display">\[\ln x \leq f(x) \xrightarrow{S}
+\begin{cases}
+    \ln x \geq g(x), &amp; 0 &lt; x \leq 1 \\
+    \ln x \leq g(x), &amp; x &gt; 1
+\end{cases}\]</span></p>
+<p>同时也有反向加强：</p>
+<p><span class="math display">\[\begin{cases}
+    \ln x \geq g(x), &amp; 0 &lt; x \leq 1 \\
+    \ln x \leq g(x), &amp; x &gt; 1
+\end{cases}
+\xrightarrow{S} \ln x \leq h(x)\]</span></p>
+<p>那么以 <span class="math inline">\(\ln x \leq x - 1\)</span> 开始迭代</p>
+<p>① 取 <span class="math inline">\(\ln x \sim x - 1\)</span></p>
+<p>由于 <span class="math inline">\(\left\lbrack x\ln x - x \right\rbrack' = \ln x\)</span>，<span class="math inline">\(\left\lbrack \frac{1}{2}x^{2} - x \right\rbrack' = x - 1\)</span> 由此构造</p>
+<p><span class="math display">\[\begin{align*}
+(\ln x - 1)x &amp;\sim \frac{1}{2}x^{2} - x + k \quad \text{（前后保持 }x &gt; 1\text{ 取等条件）} \\
+k &amp;= -\frac{1}{2} \\
+\Rightarrow \ln x &amp;\sim \frac{1}{2}\left( x - \frac{1}{x} \right)
+\end{align*}\]</span></p>
+<p>即 <span class="math display">\[\begin{equation*}
+\begin{cases}
+\ln x \geq \frac{1}{2}\left( x - \frac{1}{x} \right), &amp; \quad 0 &lt; x \leq 1 \\
+\ln x &lt; \frac{1}{2}\left( x - \frac{1}{x} \right), &amp; \quad x &gt; 1
+\end{cases}
+\end{equation*}\]</span></p>
+<p>此式正是基本 AC 不等式，但精度不够则重复上述变换。</p>
+<p>取 <span class="math inline">\(\left\lbrack (\ln x - 1)x \right\rbrack' = \ln x\)</span>，<span class="math inline">\(\left\lbrack \frac{1}{2}x^{2} - \frac{1}{2}x^{2} \right\rbrack' = \frac{1}{2}x^{2} - x\)</span></p>
+<p>重复变换</p>
+<p><span class="math display">\[\begin{align*}
+\ln x &amp;\leq \frac{(x + 5)(x - 1)}{4x + 2} \\
+\text{满足所证命题 } \ln 2 &amp;\leq 0.7
+\end{align*}\]</span></p>
+<p>有兴趣者可继续往下推理，这里给出答案</p>
+<p>这 <span class="math display">\[\begin{equation*}
+\begin{cases}
+\ln x \geq \frac{(x - 1)\left( x^{2} + 10x + 1 \right)}{6x(x + 1)}, &amp; \quad 0 &lt; x \leq 1 \\
+\ln x &lt; \frac{(x - 1)\left( x^{2} + 10x + 1 \right)}{6x(x + 1)}, &amp; \quad x &gt; 1
+\end{cases}
+\end{equation*}\]</span></p>
+</section>
+</section>
+<section id="更一般的不等式积分构造" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="更一般的不等式积分构造"><span class="header-section-number">2.2</span> 更一般的不等式积分构造</h2>
+<p>在前一小节中的积分构造是大多数模拟卷对函数的构造，这一节则讲述更一般的构造，即通过积分构造由 <span class="math inline">\(x\)</span> 常数项、分式项的适合拟合函数</p>
+<p>仅由 <span class="math inline">\(\ln x \sim \frac{1}{2}\left( x - \frac{1}{x} \right)\)</span> 开始，这里我们提取 <span class="math inline">\(x\)</span> 分母后再开始积分</p>
+<p><span class="math display">\[\begin{align*}
+x\ln x &amp;\sim \frac{1}{2}\left( x^{2} - 1 \right) \\
+\text{积分后 } \frac{1}{2}x^{4}\ln x - \frac{1}{4}x^{2} &amp;\sim \frac{1}{6}x^{3} - \frac{1}{2}x + \frac{1}{12} \\
+\text{化简有 } \ln x &amp;\sim \frac{1}{3}x + \frac{1}{2} - \frac{1}{x} + \frac{1}{6}x^{2}
+\end{align*}\]</span></p>
+<p>以此类推，可以得到一连串式子。在这里列出表格。</p>
+<table class="caption-top table">
+<caption>拟合系数表</caption>
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 12%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 12%">
+<col style="width: 11%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">最低项次数-<span class="math inline">\(n\)</span></th>
+<th colspan="7" style="text-align: center;">项次数-<span class="math inline">\(n\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">2-8</td>
+<td style="text-align: center;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-3\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-4\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-5\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-1\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-\frac{1}{2}\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{3}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{6}\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(3\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{4}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{5}{6}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-\frac{3}{2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-\frac{1}{12}\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(4\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{5}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{13}{12}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-\frac{1}{3}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{20}\)</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(5\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{6}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{71}{60}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-\frac{5}{2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{5}{3}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-\frac{5}{6}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{4}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(-\frac{1}{30}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>可以发现存在规律，通过数学归纳法可得拟合函数 (<span class="math inline">\(n \geq 1\)</span>)</p>
+<p><span class="math display">\[\varphi^{n}(x) = \frac{1}{n + 1}x + \sum_{i = 1}^{n}( - 1)^{i}\frac{1}{(i + 1)}\left( \frac{n}{i} \right)x^{n} + \left( \frac{n}{i} \right)x^{n} - 1\]</span></p>
+<p>不难证明：<span class="math inline">\(n\)</span> 为偶数时，<span class="math inline">\(\ln x \leq \varphi^{n}(x)\)</span>；<span class="math inline">\(n\)</span> 为奇数，<span class="math inline">\(x &gt; 1\)</span> 时 <span class="math inline">\(\ln x \leq \varphi^{n}(x)\)</span>，<span class="math inline">\(x &lt; 1\)</span> 时 <span class="math inline">\(\ln x \geq \varphi^{n}(x)\)</span>。</p>
+<p>在 <span class="math inline">\(n=3\)</span> 时代入 <span class="math inline">\(x=2\)</span>，<span class="math inline">\(\ln 2 \leq \frac{67}{96} \approx 0.6979167\)</span>； 在 <span class="math inline">\(n=4\)</span> 时代入 <span class="math inline">\(x=2\)</span>，<span class="math inline">\(\ln 2 &lt; \frac{667}{960} \approx 0.6948\)</span>； 在 <span class="math inline">\(n=5\)</span> 时代入 <span class="math inline">\(x=2\)</span>，<span class="math inline">\(\ln 2 &lt; \frac{111}{160} = 0.69375\)</span>。</p>
+<p>显然增加了极大的精确程度。</p>
+</section>
+<section id="小结-1" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="小结-1"><span class="header-section-number">2.3</span> 小结</h2>
+<p>本章大致讲了积分构造的两种路径： 前一种是模拟卷曲构造函数法，后一种是作者原创的函数拟合法， 并给出通项公式相对计算量没有前一种大，而且在对 <span class="math inline">\(\ln 2\)</span> 估计时都是有理数比较，相对方便。</p>
+</section>
+</section>
+<section id="根式加强不等式" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> 根式加强不等式</h1>
+<section id="引用根式加强函数补全" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="引用根式加强函数补全"><span class="header-section-number">3.1</span> 引用根式加强函数补全</h2>
+<p>在高中阶段，模拟卷中经常出现一种不等式 <span class="math display">\[\ln x \leq \sqrt{x} - \frac{1}{\sqrt{x}}, \quad \text{其中 } x \geq 1\]</span> 其来源于将 <span class="math inline">\(\sqrt{x}\)</span> 代入基本不等式 <span class="math display">\[\ln x \leq \frac{1}{2}\left( x - \frac{1}{x} \right), \quad \text{其中 } x \geq 1\]</span> 以得到加强式。那么，为什么代入 <span class="math inline">\(\sqrt{x}\)</span> 会使不等式加强？我们是否可以得到一种不等式加强的通法？答案是肯定的。</p>
+<p>首先，我们先将 <span class="math inline">\(x = 2\)</span> 代入上述两个不等式进行比较： <span class="math display">\[\begin{align*}
+\ln 2 &amp;\leq \sqrt{2} - \frac{1}{\sqrt{2}} = \frac{\sqrt{2}}{2} \approx 0.707 \\
+\ln 2 &amp;\leq \frac{1}{2}\left( 2 - \frac{1}{2} \right) = 0.75
+\end{align*}\]</span> 显然，第一个不等式比第二个更精确。下面解释加强的原因。</p>
+<p>令 <span class="math inline">\(f(t) = \frac{1}{2}\left( t - \frac{1}{t} \right) - \ln t\)</span>，则 <span class="math display">\[\begin{align*}
+f'(t) &amp;= \frac{t - 1}{2t^{2}} &gt; 0, \quad \text{其中 } t &gt; 1
+\end{align*}\]</span> 因此 <span class="math inline">\(f(t)\)</span> 在 <span class="math inline">\([1, +\infty)\)</span> 上单调递增，又由于 <span class="math inline">\(f(1) = 0\)</span>，则 <span class="math inline">\(f(t) &gt; 0\)</span>（<span class="math inline">\(t &gt; 1\)</span>）。显然在 <span class="math inline">\(t &gt; 1\)</span> 时 <span class="math inline">\(t &gt; \sqrt{t}\)</span>，则 <span class="math display">\[f(t) &gt; f\left( \sqrt{t} \right) &gt; 0\]</span> 这说明不等式加强。</p>
+<p>那么我们为什么利用 <span class="math inline">\(\sqrt{x}\)</span> 这一类的函数来进行不等式加强？首先，<span class="math inline">\(\sqrt{x}\)</span> 具有良好性质：在 <span class="math inline">\(x &gt; 1\)</span> 时 <span class="math inline">\(x &gt; \sqrt{x} &gt; 1\)</span>，在 <span class="math inline">\(0 &lt; x &lt; 1\)</span> 时 <span class="math inline">\(1 &gt; \sqrt{x} &gt; x\)</span>；其次形式简便，<span class="math inline">\(\ln\sqrt{x} = \frac{1}{2}\ln x\)</span> 为后续不等式化简提供便利。</p>
+<p>一般地，对于 <span class="math inline">\(x &gt; 1\)</span> 时，若 <span class="math inline">\(f(x) \geq \ln x\)</span>，那么 <span class="math display">\[\begin{align*}
+f\left( \sqrt{x} \right) &amp;\geq \frac{1}{2}\ln x \\
+\ln x &amp;\leq 2f\left( \sqrt{x} \right)
+\end{align*}\]</span> 那么从 <span class="math inline">\(\ln x \leq x - 1\)</span> 开始，代入 <span class="math inline">\(\sqrt{x}\)</span> 得 <span class="math display">\[\ln x \leq 2\left( \sqrt{x} - 1 \right)\]</span> 更一般地，有 <span class="math display">\[\ln x \leq n\left( \sqrt[n]{x} - 1 \right)\]</span> 令 <span class="math inline">\(x = 2\)</span> 代入化简得 <span class="math display">\[\begin{align*}
+\ln 2 &amp;\leq n\left( 2^{\frac{1}{n}} - 1 \right)
+\end{align*}\]</span></p>
+<p>我们研究函数 <span class="math inline">\(g(n) = n\left( 2^{\frac{1}{n}} - 1 \right)\)</span>，则 <span class="math display">\[\begin{align*}
+g'(n) &amp;= 2^{\frac{1}{n}} - 1 - \frac{\ln 2}{n}2^{\frac{1}{n}} &lt; 0
+\end{align*}\]</span> 因此 <span class="math inline">\(g(n)\)</span> 单调递减，且 <span class="math display">\[\begin{align*}
+\lim_{n \rightarrow \infty}n\left( 2^{\frac{1}{n}} - 1 \right) &amp;= \lim_{n \rightarrow \infty}\frac{2^{\frac{1}{n}} - 1}{\frac{1}{n}} \\
+&amp;= \ln 2
+\end{align*}\]</span> 则函数在 <span class="math inline">\(n\)</span> 趋近于 <span class="math inline">\(+\infty\)</span> 时收敛于 <span class="math inline">\(\ln 2\)</span>。</p>
+<p>倘若我们需要借助 <span class="math inline">\(\ln x \leq n\left( \sqrt[n]{x} - 1 \right)\)</span> 得出 <span class="math inline">\(\ln 2 &lt; 0.7\)</span>，只需要得到 <span class="math display">\[n\left( 2^{\frac{1}{n}} - 1 \right) = 0.7\]</span> 的大致解。借助 <code>MATLAB</code> 的数学工具，<span class="math inline">\(n \approx 35.2\)</span>。即 <span class="math inline">\(\ln x \leq 36\left( \sqrt[36]{x} - 1 \right)\)</span> 可以得出 <span class="math inline">\(\ln 2 &lt; 0.7\)</span> 的结论。</p>
+<p>必须要承认 <span class="math inline">\(g(n) = n\left( 2^{\frac{1}{n}} - 1 \right)\)</span> 的收敛速度太慢。可以使用 <span class="math inline">\(\ln x \leq \frac{1}{2}\left( x - \frac{1}{x} \right)\)</span> 的衍生式 <span class="math display">\[\ln x \leq \frac{n}{2}\left( x^{\frac{1}{n}} - x^{-\frac{1}{n}} \right)\]</span> 代入 <span class="math inline">\(x = 2\)</span> 得 <span class="math display">\[\begin{align*}
+\left( 2^{\frac{1}{n}} - 2^{-\frac{1}{n}} \right) \cdot \frac{n}{2} &amp;\geq \ln 2 \\
+\left( 2^{\frac{1}{n}} - 2^{-\frac{1}{n}} \right) \cdot \frac{n}{2} &amp;= 0.7 \quad \text{（借助 \texttt{MATLAB} 求解）}
+\end{align*}\]</span> 得 <span class="math inline">\(n \approx 2.85\)</span>。即 <span class="math display">\[\ln x \leq \frac{3}{2}\left( \sqrt[3]{x} - \frac{1}{\sqrt[3]{x}} \right)\]</span> 可以达到放缩效果。</p>
+<p>事实上，根号放缩对本书提到的大部分不等式均可使用，有兴趣者可以尝试。这里不过多赘述。</p>
+</section>
+<section id="根式函数拟合" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="根式函数拟合"><span class="header-section-number">3.2</span> 根式函数拟合</h2>
+<p>灵感主要来自于 2019 年的浙江压轴导数大题，需要证明出不等式 <span class="math inline">\(\ln x \leq 4\sqrt{x} - 2\sqrt{2x + 2}\)</span></p>
+<p>对其进行证明令 <span class="math inline">\(f(x) = \frac{\sqrt{2}}{4}\ln x + \sqrt{2x} - \sqrt{2}x\)</span></p>
+<p><span class="math display">\[f'(x) = \frac{1}{2\sqrt{2}x} + \frac{1}{2\sqrt{1 + x}} - \frac{1}{\sqrt{2}x} = \frac{\sqrt{x + 1} + \sqrt{2}x - 2\sqrt{x + x}}{2x\sqrt{2x + 2}}\quad(x &gt; 0)\]</span></p>
+<p>令 <span class="math inline">\(p(x) = \sqrt{x + 1} + \sqrt{2}x - 2\sqrt{x^{2} + x}\)</span></p>
+<p><span class="math display">\[p'(x) = \frac{1}{2\sqrt{1 + x}} + \sqrt{2} - \frac{2x + 1}{\sqrt{x^{2} + x}} = \frac{\sqrt{x} + 2\sqrt{2x^{2} + 2x} - (4x + 2)}{2\sqrt{x^{2} + x}}\quad(x &gt; 0)\]</span></p>
+<p>要证 <span class="math inline">\(p'(x) &lt; 0 \Rightarrow 2\sqrt{2x + 2x} &lt; 4x + 2 - \sqrt{x}\quad(x &gt; 0)\)</span></p>
+<p>令 <span class="math inline">\(\sqrt{x} = t\)</span>，则 <span class="math inline">\(2t\sqrt{2t + 2} &lt; 4t^{2} - t + 2\)</span>，平方得 <span class="math display">\[\left( 2t\sqrt{2t + 2} \right)^{2} &lt; \left( 4t^{2} - t + 2 \right)^{2} \Rightarrow 8t^{4} - 8t^{3} + 9t^{2} - 4t + 4 &gt; 0\quad(t &gt; 0)\]</span></p>
+<p>显然 <span class="math inline">\(8t^{4} - 8t^{3} + 9t^{2} - 4t + 4 = 2t^{2}\left\lbrack (2t - 1)^{2} + 3 \right\rbrack + (t - 2)^{2} \geq 0\)</span> 则 <span class="math inline">\(p'(x) &lt; 0\)</span>，<span class="math inline">\(p(x)\)</span> 在 <span class="math inline">\((0,1)\)</span> 上单调递减，又因为 <span class="math inline">\(p(1) = 0\)</span>，则 <span class="math inline">\(p(x) &gt; 0\)</span>（<span class="math inline">\(x \in (0,1)\)</span>）。从计算机 <code>MATLAB</code> 的拟合来看 <span class="math inline">\(4\sqrt{x} - 2\sqrt{2x + 2}\)</span> 不同于之前介绍的不等式 笔者尝试构造类似不等式即</p>
+<p><span class="math display">\[\ln x \leq a\sqrt{x} + b\sqrt{x + 1} + c\sqrt{x + 2}\]</span></p>
+<p>由待定系数法解得</p>
+<p><span class="math display">\[\ln x \leq 7\sqrt{x} - 8\sqrt{2x + 2} + 3\sqrt{3x + 6}\]</span></p>
+<p>下面给出证法（感谢富阳中学华哲文）。要证 <span class="math inline">\(7\sqrt{x} + 3\sqrt{3x + 6} - 8\sqrt{2x + 2} - \ln x \geq 0\)</span>，令 <span class="math inline">\(F(x) = 7\sqrt{x} + 3\sqrt{3x + 6} - 8\sqrt{2x + 2} - \ln x\)</span></p>
+<p><span class="math display">\[F'(x) = \frac{1}{\sqrt{x}}\left( \frac{7}{2} + \frac{3\sqrt{3}}{2\sqrt{x + 2}} - \frac{4\sqrt{2}}{\sqrt{x + 1}} - \sqrt{x} \right)\]</span></p>
+<p>记 <span class="math inline">\(G(t) = \frac{7}{2} + \frac{3\sqrt{3}}{2\sqrt{t + 2}} - \frac{4\sqrt{2}}{\sqrt{t + 1}} - \sqrt{t}\)</span></p>
+<p><span class="math display">\[G'(t) = t^{\frac{1}{2}}\left( \frac{3\sqrt{3}}{2}\frac{t}{(t + 2)\sqrt{t}} + 2\sqrt{2}\frac{1}{(t + 2)^{\frac{3}{2}}} + \frac{1}{2} \right)\]</span></p>
+<p>记 <span class="math inline">\(H(x) = \frac{3\sqrt{3}}{2}\frac{x}{(x + 2)^{\frac{3}{2}}} + 2\sqrt{2}\frac{x}{(x + 1)^{\frac{3}{2}}} - \frac{1}{2}\)</span></p>
+<p><span class="math display">\[H'(x) = \frac{\sqrt{2}}{(x + 1)^{\frac{5}{2}}} - \frac{9\sqrt{3}}{4(x + 2)^{\frac{3}{2}}} - \frac{1}{2}(x + 1)\left\lbrack \frac{2\sqrt{2}}{(x + 1)^{\frac{3}{2}}} - \frac{3\sqrt{3}}{(x + 2)^{\frac{3}{2}}} \right\rbrack\]</span></p>
+<p>当 <span class="math inline">\(x &gt; 0\)</span> 时 <span class="math inline">\(1 - x &lt; 0\)</span> <span class="math inline">\(\frac{\sqrt{2}}{(x + 1)^{\frac{5}{2}}} &lt; \frac{9\sqrt{3}}{4(x + 2)^{\frac{3}{2}}}\)</span> <span class="math inline">\(\therefore H'(x) &lt; 0\)</span> <span class="math inline">\(\therefore H'(x) &lt; H'(1) = 0\)</span> 当 <span class="math inline">\(0 &lt; x \leq 1\)</span> 时 <span class="math inline">\(\frac{(x + 2)^{\frac{2}{3}}}{(x + 1)^{\frac{2}{3}}} &gt; 2\sqrt{2}\)</span> 则 <span class="math inline">\(\frac{\sqrt{2}}{(x + 1)^{\frac{5}{2}}} \geq \frac{9\sqrt{3}}{4(x + 2)^{\frac{3}{2}}}\)</span> 又 <span class="math inline">\(1 - x \geq 0\)</span> 则 <span class="math inline">\(H'(x) \leq 0\)</span> 则 <span class="math inline">\(H'(x) &lt; H'(1) = 0\)</span> 则 <span class="math inline">\(\forall x &gt; 0\)</span>，<span class="math inline">\(H'(x) &lt; 0\)</span>，<span class="math inline">\(\therefore G'(t) &lt; 0\)</span>。 又因为 <span class="math inline">\(G(1) = 0\)</span>，则 <span class="math inline">\(G(t)\)</span> 在 <span class="math inline">\((0,1)\)</span> 上为正，在 <span class="math inline">\((1, +\infty)\)</span> 上为负。<span class="math inline">\(\therefore F'(x)\)</span> 在 <span class="math inline">\((0,1)\)</span> 上 <span class="math inline">\(\searrow\)</span>，在 <span class="math inline">\((1, +\infty)\)</span> 上 <span class="math inline">\(\nearrow\)</span> <span class="math inline">\(\therefore F(x) \geq F(1) = 0\)</span></p>
+<p>那么是否可以构造类似函数</p>
+<p><span class="math display">\[\ln x \leq a_{0}\sqrt{x} + a_{1}\sqrt{2x + 2} + a_{2}\sqrt{3x + 6} + \cdots + a_{n}\sqrt{nx + n^{2} - n}\]</span></p>
+<p>答案是可以，这里感谢知友用户杏花雨 她提出，对于 <span class="math inline">\(f(x) = 7\sqrt{x} - 8\sqrt{2x + 2} + 3\sqrt{3x + 6} - \ln x\)</span>，则 <span class="math inline">\(f'(x) = \frac{7}{2\sqrt{x}} - \frac{8\sqrt{2}}{\sqrt{x + 1}} + \frac{3\sqrt{3}}{2}\frac{1}{\sqrt{x + 2}} - \frac{1}{x}\)</span> 构造定义域 <span class="math inline">\((0, + \infty)\)</span> 上的四个函数 <span class="math inline">\(f_{0}(x) = \frac{1}{x}\)</span>, <span class="math inline">\(f_{1}(x) = \frac{1}{\sqrt{x}}\)</span>, <span class="math inline">\(f_{2}(x) = \frac{1}{\sqrt{x + 1}}\)</span>, <span class="math inline">\(f_{3}(x) = \frac{1}{\sqrt{x + 2}}\)</span>。注意到 <span class="math inline">\(\{ f_{0},f_{1},f_{2},f_{3}\}\)</span> 构成一个 Extended Complete Chebyshev System (扩展完全切比雪夫系统)，于是任意非平凡的线性组合 <span class="math inline">\(c_{0}f_{0} + c_{1}f_{1} + c_{2}f_{2} + c_{3}f_{3}\)</span> 最多有 3 零点。 定义:</p>
+<p><span class="math display">\[F(t) = \frac{3\sqrt{3}}{2}f_{3}(t) - 4\sqrt{2}f_{2}(t) + \frac{7}{2}f_{1}(t) - f_{0}(t)\]</span></p>
+<p>注意到 <span class="math inline">\(F(1) = F'(1) = F''(1) = 0\)</span> 所以 <span class="math inline">\(t = 1\)</span> 是一个三阶零点，而 <span class="math inline">\(F(2) &gt; 0\)</span> 故 <span class="math inline">\(f(x)\)</span> 在 <span class="math inline">\((0,1) \cup (1, + \infty)\)</span> 上 <span class="math inline">\(\nearrow\)</span> 则 <span class="math inline">\(f(x) &gt; 0\)</span> 证毕 这里我们不深究 ECCS 背后原理，我们只需知道我们可以求解 <span class="math inline">\(f_{0} = 0\)</span> 和 <span class="math inline">\(f_{1}^{(n)} = 0\cdots f_{n}^{(n)} = 0\)</span> 联立 <span class="math inline">\(n\)</span> 个方程求解问题。 那么 <span class="math inline">\(f_{0}\cdots f_{n} = 0\)</span> 化简</p>
+<p><span class="math display">\[a_{1} + a_{2}\frac{2}{2n} + a_{3}\frac{n}{3n} + \cdots = \frac{2(n + 1)!}{(2n - 3)!!}\text{(定义 (-1)!! = 1)}\]</span></p>
+<p>则我们以 <span class="math inline">\(\ln x \leq a_{0}\sqrt{x} + a_{1}\sqrt{2x + 2} + a_{2}\sqrt{3x + 6} + a_{3}\sqrt{4x + 12} + a_{4}\sqrt{5x + 20}\)</span> 列出方程组</p>
+<p><span class="math display">\[f_{0} = 0 \Rightarrow a_{1} + 2a_{2} + 3a_{3} + 4a_{4} + 5a_{5} = 0\]</span></p>
+<p><span class="math display">\[f_{1}^{(1)} = 0 \Rightarrow a_{1} + a_{2} + a_{3} + a_{4} + a_{5} = 2\]</span></p>
+<p><span class="math display">\[f_{2}^{(2)} = 0 \Rightarrow a_{1} + \frac{1}{2}a_{2} + \frac{1}{3}a_{3} + \frac{1}{4}a_{4} + \frac{1}{5}a_{5} = 4\]</span></p>
+<p><span class="math display">\[f_{3}^{(3)} = 0 \Rightarrow a_{1} + \frac{1}{4}a_{2} + \frac{1}{9}a_{3} + \frac{1}{16}a_{4} + \frac{1}{25}a_{5} = \frac{16}{3}\]</span></p>
+<p><span class="math display">\[f_{4}^{(4)} = 0 \Rightarrow a_{1} + \frac{1}{8}a_{2} + \frac{1}{27}a_{3} + \frac{1}{64}a_{4} + \frac{1}{125}a_{5} = 64\]</span></p>
+<p>借助 <code>MATLAB</code> 可以计算得出，</p>
+<p><span class="math display">\[a_{1} = \frac{76}{9},a_{2} = - \frac{280}{9},a_{3} = 81,a_{4} = - \frac{832}{9},a_{5} = \frac{325}{9}\]</span></p>
+<p>则</p>
+<p><span class="math display">\[\ln x \leq \frac{76}{9}\sqrt{x} - \frac{280}{9}\sqrt{2x + 2} + 81\sqrt{3x + 6} - \frac{832}{9}\sqrt{4x + 12} + \frac{325}{9}\sqrt{5x + 20}\]</span></p>
+<p>代<span class="math inline">\(x = 2\)</span>可以证明</p>
+<p><span class="math display">\[\begin{equation*}
+\ln 2 \leq \begin{cases}
+\ln x \leq \frac{76}{9}\sqrt{x} - \frac{280}{9}\sqrt{2x + 2} + 81\sqrt{3x + 6} - \frac{832}{9}\sqrt{4x + 12} + \frac{325}{9}\sqrt{5x + 20}, &amp; \quad 0 &lt; x &lt; 1 \\
+\ln x \leq \frac{76}{9}\sqrt{x} - \frac{280}{9}\sqrt{2x + 2} + 81\sqrt{3x + 6} - \frac{832}{9}\sqrt{4x + 12} + \frac{325}{9}\sqrt{5x + 20}, &amp; \quad x &gt; 1
+\end{cases}
+\end{equation*}\]</span></p>
+<p>代入<span class="math inline">\(x = 2\)</span></p>
+<p><span class="math display">\[\ln 2 \approx 0.6927\]</span></p>
+<p>与<span class="math inline">\(\ln 2 \approx 0.6931471806\)</span>相距很近</p>
+</section>
+<section id="小结-2" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="小结-2"><span class="header-section-number">3.3</span> 小结</h2>
+<p>本文大致交代了两种根式放缩方法，第一种是在原函数基础上通过根式加强不等式，第二种则是通过多个根式的线性拟合，本质上允许多重展开。 限制点有：①根式容易带来无理数，存在误差。②第二种方法需要计算多个系数，可以通过矩阵解矩阵求解，但运算复杂。</p>
+</section>
+</section>
+<section id="系数加权的放缩" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> 系数加权的放缩</h1>
+<section id="两道港中深题目的引入" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="两道港中深题目的引入"><span class="header-section-number">4.1</span> 两道港中深题目的引入</h2>
+<p>我们先来看两道题</p>
+<p>①<span class="math inline">\(x \in \lbrack 0,\frac{\pi}{2})\)</span>,<span class="math inline">\(\lambda\sin x + (1 - \lambda)\tan x \geq x\)</span> 求<span class="math inline">\(\lambda\)</span>范围 ②<span class="math inline">\(x \in \lbrack 0,\frac{\pi}{2})\)</span>,<span class="math inline">\(\sin^{\lambda}x\tan^{1 - \lambda}x \geq x\)</span> 求<span class="math inline">\(\lambda\)</span>范围</p>
+<p>原题是港中深自主招生题，实质是解决①②两个命题（感谢同桌夏阳供稿题） 这里先直接给出答案 ①<span class="math inline">\(\frac{2}{3}\sin x + \frac{1}{3}\tan x \geq x\)</span> 即 <span class="math inline">\(0 \leq \lambda \leq \frac{2}{3}\)</span> ②<span class="math inline">\(\sin^{\frac{2}{3}}x\tan^{\frac{1}{3}}x \geq x\)</span> 即 <span class="math inline">\(0 \leq \lambda \leq \frac{2}{3}\)</span></p>
+<p>我们先思考为什么会出现这两个不等式?很显然,这两个不等式通过过将</p>
+<p><span class="math inline">\(\sin x \leq x\)</span>（<span class="math inline">\(0 \leq x \leq \frac{\pi}{2}\)</span>）与 <span class="math inline">\(\tan x \geq x\)</span>（<span class="math inline">\(0 \leq x \leq \frac{\pi}{2}\)</span>）组合使不等式加强。不等式①是通过加法线性组合，不等式②是通过乘法组合。</p>
+<p>那么我们是否可以用相同的方式构造加强不等式?答案是可以</p>
+</section>
+<section id="构造不等式" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="构造不等式"><span class="header-section-number">4.2</span> 构造不等式</h2>
+<p>这里作者采用 <span class="math inline">\(\ln x \geq \frac{2(x - 1)}{x + 1}\)</span>（<span class="math inline">\(x \geq 1\)</span>）与 <span class="math inline">\(\ln x \leq \frac{1}{2}\left( x - \frac{1}{x} \right)\)</span> 进行处理，是通过加法线性处理。</p>
+<p>令 <span class="math display">\[\begin{align*}
+f(x) &amp;= \ln x - \left\lbrack \lambda\frac{2(x - 1)}{x + 1} + (1 - \lambda) \cdot \frac{1}{2}\left( x - \frac{1}{x} \right) \right\rbrack, \quad x \geq 1
+\end{align*}\]</span> 进行讨论。很显然 <span class="math inline">\(f(1) = 0\)</span>，接下来讨论 <span class="math inline">\(f'(x)\)</span>： <span class="math display">\[\begin{align*}
+f'(x) &amp;= \frac{(x - 1)\left( x^{2} + 4x + 1 \right)}{2x^{2}(x + 1)^{2}}\left( \lambda - 1 + \frac{2}{x + \frac{1}{x} + 4} \right), \quad x \geq 1
+\end{align*}\]</span> 则当 <span class="math inline">\(\lambda - 1 + \frac{2}{x + \frac{1}{x} + 4} = 0\)</span> 即 <span class="math inline">\(\lambda = \frac{2}{3}\)</span> 时 <span class="math display">\[\begin{align*}
+\ln x &amp;&lt; \frac{2}{3} \cdot \frac{2(x - 1)}{x + 1} + \frac{1}{6}\left( x - \frac{1}{x} \right), \quad x \geq 1
+\end{align*}\]</span> 代入 <span class="math inline">\(x = 2\)</span> 得 <span class="math display">\[\ln 2 &lt; \frac{25}{36} \approx 0.6944\]</span></p>
+<p>但是并不是所有的不等式都可以用这种方法加强。</p>
+<p>再通过乘法处理。令 <span class="math display">\[\begin{align*}
+g(x) &amp;= \ln x - \left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack^{\lambda}\left\lbrack \frac{1}{2}\left( x - \frac{1}{x} \right) \right\rbrack^{1 - \lambda}
+\end{align*}\]</span> 可以得出 <span class="math display">\[\begin{align*}
+\ln x &amp;&lt; \left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack^{\frac{2}{3}}\left\lbrack \frac{1}{2}\left( x - \frac{1}{x} \right) \right\rbrack^{\frac{1}{3}}, \quad x \geq 1
+\end{align*}\]</span> 代入 <span class="math inline">\(x = 2\)</span> 得 <span class="math display">\[\ln 2 &lt; \frac{1}{\sqrt[3]{3}} \approx 0.6933\]</span></p>
+<p>显然不等式增强。</p>
+<p>但并不是所有的不等式都可以采取这种方式加强。例如,</p>
+<p>采用 <span class="math inline">\(\ln x \leq x - 1\)</span> 与 <span class="math inline">\(\ln x \geq \frac{2(x - 1)}{x + 1}\)</span> 构造 <span class="math inline">\(\varphi(x)\)</span>： <span class="math display">\[\begin{align*}
+\varphi(x) &amp;= \frac{2\lambda(x - 1)}{x + 1} + (1 - \lambda)(x - 1) - \ln x, \quad x \geq 1
+\end{align*}\]</span> 得 <span class="math inline">\(\lambda = 1\)</span>，显然没有起到加强效果。</p>
+<p>所以我们需要思考什么样的函数可以组合加强。</p>
+</section>
+<section id="不等式分类" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="不等式分类"><span class="header-section-number">4.3</span> 不等式分类</h2>
+<p>对于加法组合的不等式，令 <span class="math display">\[\begin{align*}
+\varphi_{1}(x) &amp;= \frac{1 + \lambda}{2}f(x) + \frac{1 - \lambda}{2}g(x) - \ln x
+\end{align*}\]</span> 由于 <span class="math inline">\(\lim_{x \rightarrow 1}\varphi(x) = 0\)</span>，分离变量后 <span class="math display">\[\begin{align*}
+\lambda &amp;= \lim_{x \rightarrow 1}\frac{\left\lbrack g(x) - \ln x \right\rbrack + \left\lbrack f(x) - \ln x \right\rbrack}{\left\lbrack g(x) - \ln x \right\rbrack - \left\lbrack f(x) - \ln x \right\rbrack}
+\end{align*}\]</span></p>
+<p>对于乘法组合的不等式</p>
+<p>令 <span class="math inline">\(\varphi_{2}(x) = \left\lbrack f(x) \right\rbrack^{\frac{1 + \lambda}{2}}\left\lbrack g(x) \right\rbrack^{\frac{1 - \lambda}{2}} - \ln x\)</span></p>
+<p>由于 <span class="math inline">\(\lim_{x \rightarrow 1}\varphi_{2}(x) = 0\)</span></p>
+<p>分离变量后</p>
+<p><span class="math display">\[\begin{align*}
+\lambda &amp;= \lim_{x \rightarrow 1}\frac{\ln\left\lbrack \frac{g(x) - \ln x}{\ln x} + 1 \right\rbrack + \ln\left\lbrack \frac{f(x) - \ln x}{\ln x} + 1 \right\rbrack}{\ln\left\lbrack \frac{f(x) - \ln x}{\ln x} + 1 \right\rbrack - \ln\left\lbrack \frac{g(x) - \ln x}{\ln x} + 1 \right\rbrack}
+\end{align*}\]</span></p>
+<p>结果表明只有当 <span class="math inline">\(\lim_{x \rightarrow 1}\left\lbrack g(x) - \ln x \right\rbrack\)</span> 与 <span class="math inline">\(\lim_{x \rightarrow 1}\left\lbrack f(x) - \ln x \right\rbrack\)</span> 是同阶无穷小时才可以加强。</p>
+<p>下结论给出部分不等式的无穷小级别</p>
+<ul>
+<li><p><strong>一阶无穷小</strong></p>
+<p><span class="math display">\[\begin{align*}
+        &amp; x - 1 - \ln x = o(x - 1) \\
+        &amp; 1 - \frac{1}{x} - \ln x = o(x - 1)
+\end{align*}\]</span></p></li>
+</ul>
+<!-- -->
+<ul>
+<li><p><strong>二阶无穷小</strong></p>
+<p><span class="math display">\[\begin{align*}
+        &amp; \frac{2(x - 1)}{x + 1} - \ln x = o((x - 1)^2) \\
+        &amp; \frac{1}{2}\left( x - \frac{1}{x} \right) - \ln x = o((x - 1)^2) \\
+        &amp; \sqrt{x} - \frac{1}{\sqrt{x}} - \ln x = o((x - 1)^2)
+\end{align*}\]</span></p></li>
+</ul>
+<!-- -->
+<ul>
+<li>三阶无穷小</li>
+</ul>
+<p><span class="math display">\[\frac{(x - 1)(x + 5)}{4x + 2} - \ln x = o((x - 1)^3)\]</span></p>
+<ul>
+<li><p><strong>四阶无穷小</strong></p>
+<p><span class="math display">\[\begin{align*}
+        &amp; \frac{1}{3}\left[ \frac{1}{2}\left( x - \frac{1}{x} \right) \right] + \frac{2}{3}\left[ \frac{2(x - 1)}{x + 1} \right] - \ln x = o((x - 1)^4) \\
+        &amp; \left[ \frac{1}{2}\left( x - \frac{1}{x} \right) \right]^{\frac{1}{3}} \left[ \frac{2(x - 1)}{x + 1} \right]^{\frac{2}{3}} - \ln x = o((x - 1)^4) \\
+        &amp; \ln\left( \frac{8x^{3} - 1}{3(x + 1)^{3}} \right) - \ln x = o((x - 1)^4)
+\end{align*}\]</span></p></li>
+</ul>
+<p>在之前演示中，可以发现我们成功将 <span class="math inline">\(\frac{2(x - 1)}{x + 1} - \ln x\)</span> 与 <span class="math inline">\(\frac{1}{2}\left( x - \frac{1}{x} \right) - \ln x\)</span> 组合得到</p>
+<p>加强不等式，而对于<span class="math inline">\(- 1 + x - \ln x\)</span>与<span class="math inline">\(\frac{2(x - 1)}{x + 1} - \ln x\)</span>的组合失败了，原因在于</p>
+<p><span class="math inline">\(\frac{2(x - 1)}{x + 1} - \ln x\)</span>与<span class="math inline">\(\frac{1}{2}\left( x - \frac{1}{x} \right) - \ln x\)</span>是同阶无穷小，与<span class="math inline">\(x - 1 - \ln x\)</span>是不同阶无穷小</p>
+<div class="proof remark">
+<p><span class="proof-title"><em>Remark</em>. </span><strong>注 1</strong>. 这一小节采用高数的符号，这里写<span class="math inline">\(f(x)\)</span>为<span class="math inline">\(O(x - 1)\)</span>是指<span class="math inline">\(\lim_{x \rightarrow 1}\frac{f(x)}{(x - 1)^{n}} = 0\)</span></p>
+</div>
+</section>
+<section id="小结-3" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="小结-3"><span class="header-section-number">4.4</span> 小结</h2>
+<p>本章讲述基于现有不等式构造加强不等式的方法。从 <code>MATLAB</code> 的函数拟合效果来看的确很好，也达到我们预期效果放缩强度。同时细心的读者会发现，对于我们组合出的两个不等式</p>
+<p><span class="math display">\[\begin{align*}
+\varphi_{1}(x) &amp;= \frac{1}{3}\left\lbrack \frac{1}{2}\left( x - \frac{1}{x} \right) \right\rbrack + \frac{2}{3}\left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack - \ln x \\
+\varphi_{2}(x) &amp;= \left\lbrack \frac{1}{2}\left( x - \frac{1}{x} \right) \right\rbrack^{\frac{1}{3}}\left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack^{\frac{2}{3}} - \ln x
+\end{align*}\]</span> 均属于 <span class="math inline">\(O(x - 1)^{4}\)</span>，也就是说 <span class="math inline">\(\varphi_{1}(x)\)</span> 与 <span class="math inline">\(\varphi_{2}(x)\)</span> 仍然可以进行再次组合，构造不等式。有兴趣的读者可以接着尝试。</p>
+<p>总而言之，此类方法是适用性极广的方法且效果显著，经常在模拟卷中出现。</p>
+</section>
+</section>
+<section id="数值积分" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> 数值积分</h1>
+<section id="梯形法则" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="梯形法则"><span class="header-section-number">5.1</span> 梯形法则</h2>
+<p>在之前的章节我们注重于对强不等式的构造，在本章节我们将注意力放回到数值估算上。</p>
+<p>梯形法则顾名思义，它的主要思想是将曲线在区间上的图形近似为一条梯形的面积，从而由梯形面积公式来计算函数在某个区间的积分近似值。</p>
+<p>即我们认为<span class="math inline">\(\left( f(x) \geq 0,x \geq 0 \right)\)</span></p>
+<p><span class="math display">\[\frac{- m + n}{2}\left\lbrack f(m) + f(n) \right\rbrack \approx \int_{m}^{n}f(x)\,\mathop{}\!\mathrm{d}x\]</span></p>
+<p>更特殊地，我们认为当<span class="math inline">\(f(x) \geq 0\)</span>即<span class="math inline">\(f(x)\)</span>是凹函数时</p>
+<p><span class="math display">\[\int_{m}^{n}f(x)\,\mathop{}\!\mathrm{d}x \leq \frac{- m + n}{2}\left\lbrack f(m) + f(n) \right\rbrack\]</span></p>
+<p>下给出证明</p>
+<p><span class="math display">\[\int_{m}^{n}f(x)\,\mathop{}\!\mathrm{d}x - \frac{n - m}{2}\left\lbrack f(m) + f(n) \right\rbrack \geq 0\]</span></p>
+<p>视<span class="math inline">\(n\)</span>为主元</p>
+<p>令 <span class="math inline">\(p(n) = \int_{m}^{n}f(x)\,\mathop{}\!\mathrm{d}x - \frac{n - m}{2}\left\lbrack f(m) + f(n) \right\rbrack\)</span></p>
+<p><span class="math display">\[\begin{align*}
+p'(n) &amp;= f(n) - \frac{f(n)}{2} - \frac{n - m}{2}f'(n) - \frac{f(n)}{2} \\
+&amp;= \frac{1}{2}\left\lbrack f(n) - f(m) - (n - m)f'(n) \right\rbrack \\
+p''(n) &amp;= \frac{1}{2}\left\lbrack f'(n) - f'(m) - nf''(n) \right\rbrack \\
+&amp;= -nf''(n) &lt; 0
+\end{align*}\]</span></p>
+<p>则 <span class="math inline">\(p'(n) &lt; p'(m) = 0,p(n) &lt; p(m) = 0\)</span> 证毕。 则在这里，要证明 <span class="math inline">\(\ln 2 &lt; 0.7\)</span> 可将 <span class="math inline">\(\ln 2\)</span> 视为 <span class="math inline">\(\int_{1}^{2}\frac{1}{x}\,\mathop{}\!\mathrm{d}x\)</span>，则将 <span class="math inline">\([1, 2]\)</span> 区间分为 <span class="math inline">\(n\)</span> 个等长的子区间则可表示为</p>
+<p><span class="math display">\[\ln 2 = \int_{1}^{2}\frac{1}{x}\,\mathop{}\!\mathrm{d}x &lt; \frac{1}{2n}\left\lbrack 1 + 2\sum_{i = 1}^{n - 1}\frac{1}{\frac{i}{n} + \frac{1}{n}} + \frac{1}{2} \right\rbrack = \frac{3}{4n} + \sum_{i = 1}^{n - 1}\frac{1}{n + i}\]</span></p>
+<p>当 <span class="math inline">\(n = 2\)</span>，<span class="math inline">\(\ln 2 &lt; \frac{17}{24}\)</span>；当 <span class="math inline">\(n = 3\)</span>，<span class="math inline">\(\ln 2 &lt; 0.7\)</span>；当 <span class="math inline">\(n = 4\)</span>， <span class="math inline">\(\ln 2 &lt; \frac{1171}{1680} \approx 0.697\)</span>。命题显然得证。这里是我们取 <span class="math inline">\(f(x) = \frac{1}{x}\)</span>，<span class="math inline">\([m, n] = [1, 2]\)</span>。实际上 <span class="math inline">\(\int_{1}^{2}f(x)\,\mathop{}\!\mathrm{d}x = \ln 2\)</span> 并不仅仅只有这一种组合，读者可以自行尝试</p>
+</section>
+<section id="标准辛普森公式" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="标准辛普森公式"><span class="header-section-number">5.2</span> 标准辛普森公式</h2>
+<p>我们反思梯形法，则实质上我们是把光滑的函数拟合为分段直线后积分，那么我们为什么一定要选择直线？是否可以选取三个点，拟合为二次函数？ 答案是可以。这便是标准辛普森公式的核心思想：在每相邻三个点之间，用一个二次多项式来近似原函数，从而估算积分。 我们先考虑区间 <span class="math inline">\([x_0, x_2]\)</span>，在区间上找二次函数逼近。设 <span class="math inline">\(x_0, x_1, x_2\)</span> 是均匀分布的点，间隔为 <span class="math inline">\(h\)</span>： <span class="math display">\[\begin{align*}
+x_{0} &amp;= x_{1} + h \\
+x_{2} &amp;= x_{0} + 2h
+\end{align*}\]</span></p>
+<p>则根据构造过这三点的二次函数</p>
+<p><span class="math display">\[P(x) = f\left( x_{0} \right)\frac{\left( x - x_{1} \right)\left( x - x_{2} \right)}{\left( x_{0} - x_{1} \right)\left( x_{0} - x_{2} \right)} + f\left( x_{1} \right)\frac{\left( x - x_{0} \right)\left( x - x_{2} \right)}{\left( x_{1} - x_{0} \right)\left( x_{1} - x_{2} \right)} + f\left( x_{2} \right)\frac{\left( x - x_{0} \right)\left( x - x_{1} \right)}{\left( x_{2} - x_{0} \right)\left( x_{2} - x_{1} \right)}\]</span></p>
+<p>令 <span class="math inline">\(x = x_{0} + ht\)</span>（<span class="math inline">\(x_{1} \rightarrow t = 1\)</span>，<span class="math inline">\(x_{2} \rightarrow t = 2\)</span>），则 <span class="math display">\[\begin{align*}
+l_{0}(t) &amp;= \frac{(t - 1)(t - 2)}{2} \\
+l_{1}(t) &amp;= -t(t - 2) \\
+l_{2}(t) &amp;= \frac{t(t - 1)}{2}
+\end{align*}\]</span> 则 <span class="math display">\[\begin{align*}
+\int_{x_{0}}^{x_{2}}P(x)\,\mathop{}\!\mathrm{d}x &amp;= h\left\lbrack f\left( x_{0} \right)\int_{0}^{2}l_{0}(t)\,\mathop{}\!\mathrm{d}t + f\left( x_{1} \right)\int_{0}^{2}l_{1}(t)\,\mathop{}\!\mathrm{d}t + f\left( x_{2} \right)\int_{0}^{2}l_{2}(t)\,\mathop{}\!\mathrm{d}t \right\rbrack \\
+&amp;= \frac{h}{3}\left\lbrack f\left( x_{0} \right) + 2f\left( x_{1} \right) + f\left( x_{2} \right) \right\rbrack
+\end{align*}\]</span> 当整个区间<span class="math inline">\([a,b]\)</span>分为<span class="math inline">\(n\)</span>个小区间时，由于每个抛物线需要2个小区间，所以<span class="math inline">\(n\)</span>为偶数又则容易得到</p>
+<p><span class="math display">\[\int_{a}^{b}f(x)\,\mathop{}\!\mathrm{d}x = \frac{h}{3}\left\lbrack f\left( x_{0} \right) + f\left( x_{n} \right) + 2\left( f\left( x_{2} \right) + f\left( x_{4} \right) + \cdots \right) + 4\left( f\left( x_{1} \right) + f\left( x_{3} \right) + \cdots \right) \right\rbrack\]</span></p>
+<p>一般认为，若<span class="math inline">\(f''(x) &lt; 0\)</span>，估算值 &lt; 实际值，若<span class="math inline">\(f''(x) &gt; 0\)</span>，估算值 &gt; 实际值 这里我们选取 <span class="math inline">\(f(x) = \frac{1}{x}\)</span>，<span class="math inline">\(a = 1\)</span>，<span class="math inline">\(b = 2\)</span>，<span class="math inline">\(h = \frac{1}{4}\)</span> 代入 <span class="math display">\[\begin{align*}
+\ln 2 = \int_{1}^{2}\frac{1}{x}\,\mathop{}\!\mathrm{d}x &amp;&lt; \frac{8.319}{12} \approx 0.69325
+\end{align*}\]</span> 与 <span class="math inline">\(\ln 2 \approx 0.69314\)</span> 相当接近。</p>
+</section>
+<section id="三段复合辛普森方法" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="三段复合辛普森方法"><span class="header-section-number">5.3</span> 三段复合辛普森方法</h2>
+<p>前一节介绍标准辛普森公式，要求区间被分割数为偶数。事实上，辛普森家庭中存在处理奇数段，尤其是三的倍数段的方法，这便是三段复合辛普森方法。其方法与标准公式唯一不同点，是在三个等距点上构造三次多项式。具体推导方式与前种相似，这里不过多赘述。 公式为</p>
+<p><span class="math display">\[\int_{a}^{b}f(x)\,\mathop{}\!\mathrm{d}x = \frac{3h}{8}\left\lbrack f\left( x_{0} \right) + 3f\left( x_{1} \right) + 3f\left( x_{2} \right) + f\left( x_{3} \right) \right\rbrack\]</span></p>
+<p>代入有</p>
+<p><span class="math display">\[\ln 2 = \int_{1}^{2}\frac{1}{x}\,\mathop{}\!\mathrm{d}x \approx \frac{3 \cdot \frac{1}{3}}{8}\left\lbrack f(1) + 3f\left( \frac{4}{3} \right) + 3f\left( \frac{5}{3} \right) + f(2) \right\rbrack = \frac{5.35}{8} = 0.69375\]</span></p>
+<p>相当接近标准值</p>
+</section>
+<section id="小结-4" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="小结-4"><span class="header-section-number">5.4</span> 小结</h2>
+<p>本章介绍了三种估值方式，核心是借助积分的几何意义估值，便利之处在于结果为有理数便于估值计算。实际上，这几种方法均可用于编程，适合计算难以给出解析解的定积分上。</p>
+</section>
+</section>
+<section id="级数展开" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> 级数展开</h1>
+<section id="泰勒展开" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="泰勒展开"><span class="header-section-number">6.1</span> 泰勒展开</h2>
+<p>从本章开始，笔者要开始介绍一些陌生的老朋友。泰勒展开常常出现在模拟卷中。笔者在查阅文献时部分作者认为泰勒展开能是高中必修知识。尽管有些偏不被负，但也可以看出泰勒展开的重要意义。</p>
+<p>那么泰勒展开是如何得到的？我们要用一个 <span class="math inline">\(n\)</span> 次多项式 <span class="math inline">\(P_{n}(x)\)</span> 在点 <span class="math inline">\(x_{0}\)</span> 附近表示 <span class="math inline">\(f(x)\)</span>，那么它们在点 <span class="math inline">\(x_{0}\)</span> 附近的各阶导数也必然相等</p>
+<p>为求<span class="math inline">\(P_{n}(x)\)</span>表达式，设</p>
+<p><span class="math display">\[P_{n}(x) = a_{0} + a_{1}\left( x - x_{0} \right) + \cdots + a_{n - 1}\left( x - x_{0} \right)^{n - 1} + a_{n}\left( x - x_{0} \right)^{n}\]</span></p>
+<p>则各阶导数为</p>
+<p><span class="math display">\[\begin{align*}
+P_{n}^{(k)}\left( x_{0} \right) &amp;= k!a_{k}, \quad k = 0,1,\cdots,n \\
+a_{k} &amp;= \frac{f^{(k)}\left( x_{0} \right)}{k!}, \quad k = 0,1,\cdots,n \\
+P_{n}(x) &amp;= f\left( x_{0} \right) + \frac{f'\left( x_{0} \right)}{1!}\left( x - x_{0} \right) + \cdots + \frac{f^{(n)}\left( x_{0} \right)}{n!}\left( x - x_{0} \right)^{n} \\
+&amp;= \sum_{k = 0}^{n}\frac{f^{(k)}\left( x_{0} \right)}{k!}\left( x - x_{0} \right)^{k}
+\end{align*}\]</span></p>
+<p>那么由泰勒定理可得</p>
+<p><span class="math display">\[f(x) = O\left( x - x_{0} \right)^{n} + \sum_{k = 0}^{n}\frac{f^{(k)}\left( x_{0} \right)}{k!}\left( x - x_{0} \right)^{k}\]</span></p>
+<p>或 <span class="math inline">\(f(x) = \frac{f^{(n + 1)}(\xi)}{(n + 1)!}\left( x - x_{0} \right)^{n + 1} + \sum_{k = 0}^{n}\frac{f^{(k)}\left( x_{0} \right)}{k!}\left( x - x_{0} \right)^{k}\quad\left( \xi \in \left\lbrack x_{0},x \right\rbrack \right)\)</span></p>
+<p>前者 <span class="math inline">\(O((x - x_0)^n)\)</span> 称为佩亚诺余项，后者 <span class="math inline">\(\frac{f^{(n+1)}(\xi)}{(n + 1)!}(x - x_0)^{n + 1}\)</span> 称为拉格朗日余项。</p>
+<p>证明略，感兴趣的读者可自行证明</p>
+</section>
+<section id="麦克劳林公式" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="麦克劳林公式"><span class="header-section-number">6.2</span> 麦克劳林公式</h2>
+<p>麦克劳林公式实质是 <span class="math inline">\(x_0=0\)</span> 时带有拉格朗日余项的泰勒展开（其实麦克劳林也认为这毫无新意，但是历史仍固执地将一部分功劳给了麦克劳林），下给出 <span class="math inline">\(\ln(1+x)\)</span> 与 <span class="math inline">\(\mathrm{e}^{x}\)</span> 的麦克劳林公式：</p>
+<p><span class="math display">\[\ln(1 + x) = x - \frac{1}{2}x^{2} + \frac{1}{3}x^{3} - \cdots + ( - 1)^{n - 1}\frac{1}{n}x^{n} + ( - 1)^{n}\frac{1}{n + 1}\frac{1}{(1 + \theta x)^{n + 1}}x^{n + 1}\]</span></p>
+<p>其中 <span class="math inline">\(\theta \in (0,1)\)</span>，<span class="math inline">\(x &gt; -1\)</span></p>
+<p><span class="math display">\[\mathrm{e}^{x} = 1 + x + \frac{1}{2!}x^{2} + \cdots + \frac{1}{n!}x^{n} + \frac{\mathrm{e}^{\theta x}}{(n + 1)!}x^{n + 1}\]</span></p>
+<p>那么我们对 <span class="math inline">\(\ln 2\)</span> 进行估值则有</p>
+<p><span class="math display">\[\ln 2 = \sum_{n = 1}^{\infty}( - 1)^{n - 1}\frac{1}{n}\]</span></p>
+<p>那么往里面代入数值欣喜发现，当 <span class="math inline">\(i=73\)</span> 时，<span class="math inline">\(\ln 2 &lt; 0.69949 &lt; 0.7\)</span>（上述结果来自 CASIO fx-991CN）</p>
+<p>方法不错，但是需要计算较多阶数，原因在于此公式的收敛速度极慢，因此需要改进</p>
+<p>我们可以取 <span class="math inline">\(\ln(1+x)\)</span> 在 <span class="math inline">\(x=2\)</span> 处的泰勒展开</p>
+<p><span class="math display">\[\ln x = \ln 2 + \frac{1}{2}(x - 2) - \frac{1}{4}\frac{(x - 2)^{2}}{2!} + \frac{1}{4}\frac{(x - 2)^{3}}{3!} - \cdots\]</span></p>
+<p>令 <span class="math inline">\(x = \frac{1}{2}\)</span> 时，则有 <span class="math display">\[\begin{align*}
+-\ln 2 &amp;= \ln 2 - \frac{1}{2} \times \frac{3}{2} - \frac{1}{4} \times \frac{\left( \frac{3}{4} \right)^{2}}{2!} - \cdots
+\end{align*}\]</span> 即 <span class="math display">\[\ln 2 = \frac{1}{2}\sum_{n = 1}^{\infty}\frac{1}{n}\left( \frac{3}{4} \right)^{n}\]</span> 收敛速度比前者快得多： <span class="math display">\[\ln 2 &gt; \frac{1}{2}\sum_{n = 1}^{20}\frac{1}{n}\left( \frac{3}{4} \right)^{n} = 0.692946\]</span></p>
+<p>而 <span class="math inline">\(\ln 2 \approx 0.6931\)</span>，误差极近</p>
+<p>其实还有一种数形结合的方法，我们将 <span class="math inline">\(x=\ln 2\)</span> 看作 <span class="math inline">\(\mathrm{e}^{x}=2\)</span> 的解</p>
+<p>而<span class="math inline">\(\mathrm{e}^{0.7} &gt; 1 + 0.7 + \frac{1}{2} \times {0.7}^{2} + \frac{1}{6} \times {0.7}^{3} = \frac{12013}{6000} &gt; 2\)</span></p>
+<p>则可证明出 <span class="math inline">\(\ln 2 &lt; 0.7\)</span></p>
+</section>
+<section id="反双曲正切函数的麦克劳林公式" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="反双曲正切函数的麦克劳林公式"><span class="header-section-number">6.3</span> 反双曲正切函数的麦克劳林公式</h2>
+<p>由2024年新旧课标一卷的导数题引入。 最后需要证明不等式为 <span class="math inline">\((1 \leq x)\)</span></p>
+<p><span class="math display">\[\ln\frac{x}{2 - x} - 2(x - 1) - \frac{2}{3}(x - 1)^{3} \geq 0\]</span></p>
+<p>令 <span class="math inline">\(x = 1 + t\)</span></p>
+<p><span class="math display">\[\ln\frac{1 + t}{1 - t} - 2t - \frac{2}{3}t^{3} \geq 0\]</span></p>
+<p>细心的读者可以发现</p>
+<p><span class="math display">\[\begin{align*}
+\ln(1 + t) &amp;= t - \frac{1}{2}t^{2} + \frac{1}{3}t^{3} - \cdots \\
+\ln(1 - t) &amp;= -t - \frac{1}{2}t^{2} - \frac{1}{3}t^{3}
+\end{align*}\]</span></p>
+<p>则</p>
+<p><span class="math display">\[\ln\left( \frac{1 + t}{1 - t} \right) = 2t + \frac{2}{3}t^{3} + \frac{2}{5}t^{5} + \cdots\]</span></p>
+<p>这便是这道导数压轴题的出处，函数 <span class="math inline">\(\ln\left( \frac{1 + x}{1 - x} \right)\)</span> 的麦克劳林展开的本质是 <span class="math inline">\(\ln(1 + x)\)</span> 表麦克劳林展开的复合。我们把 <span class="math inline">\(\ln\left( \frac{1 + x}{1 - x} \right)\)</span> 叫做反双曲正切函数的，记作 <span class="math inline">\(\operatorname{arctanh}x\)</span>，即</p>
+<p><span class="math display">\[\operatorname{arctanh}x = \frac{1}{2}\ln\left( \frac{1 + x}{1 - x} \right)\]</span></p>
+<p>则</p>
+<p><span class="math display">\[\begin{align*}
+\ln 2 &amp;= 2\operatorname{arctanh}\frac{1}{3} = 2\sum_{n = 0}^{\infty}\frac{1}{2n + 1}\left( \frac{1}{3} \right)^{2n + 1}
+\end{align*}\]</span> 此式收敛速度较快： <span class="math display">\[\ln 2 &gt; 2\sum_{n = 0}^{3}\frac{1}{2n + 1}\left( \frac{1}{3} \right)^{2n + 1} = 0.693134\]</span></p>
+</section>
+<section id="帕德近似" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="帕德近似"><span class="header-section-number">6.4</span> 帕德近似</h2>
+<p>从泰勒展开到泰勒展开，就必须要提及帕德近似。由于泰勒展开存在局限性，在某些时候收敛速度过慢，因此数学家们思考：能不能用一个有理函数来代替这个泰勒多项式？ 这便是逼近帕德近似最初动机。</p>
+<p>帕德近似的思想是构造一个有理函数 <span class="math inline">\(R(x) = \frac{P_{r}(x)}{Q_{s}(x)}\)</span> (<span class="math inline">\(r,s\)</span>分别是分子、分母多项式次数)</p>
+<p>使得 <span class="math inline">\(f(x) - R(x) = O\left( x^{r + s + 1} \right)\)</span></p>
+<p>即有理函数在<span class="math inline">\(x = 0\)</span>附近与原函数泰勒展开一致到<span class="math inline">\(r + s\)</span>项为止</p>
+<p>我们计算 <span class="math inline">\([2/2]\)</span> 型的 <span class="math inline">\(\ln(x + 1)\)</span> 的帕德近似</p>
+<p>令 <span class="math inline">\(\ln(x + 1) = x - \frac{1}{2}x^{2} + \frac{1}{3}x^{3} - \frac{1}{4}x^{4} + O\left( x^{5} \right) \sim \frac{a_{0} + a_{1}x + a_{2}x^{2}}{b_{0} + b_{1}x + b_{2}x^{2}}\)</span></p>
+<p>对于右边等式处理 <span class="math inline">\(\left( b_{0} + b_{1}x + b_{2}x^{2} \right)\left( x - \frac{1}{2}x^{2} + \frac{1}{3}x^{3} - \frac{1}{4}x^{4} \right) = a_{0} + a_{1}x + a_{2}x^{2} + O\left( x^{3} \right) + O\left( x^{4} \right)\)</span> (更高阶忽略)</p>
+<p><span class="math display">\[\begin{align*}
+b_{0} &amp;= a_{1} \\
+b_{1} - \frac{1}{2}b_{0} &amp;= a_{2} \\
+a_{0} &amp;= 0 \\
+\frac{1}{3}b_{0} - \frac{1}{2}b_{1} + b_{2} &amp;= 0 \\
+\frac{1}{3}b_{1} - \frac{1}{2}b_{2} - \frac{1}{4}b_{0} &amp;= 0
+\end{align*}\]</span> 得 <span class="math display">\[\begin{align*}
+b_{2} &amp;= \frac{1}{6}, \quad b_{1} = 1, \quad b_{0} = 1 \\
+a_{0} &amp;= 0, \quad a_{2} = \frac{1}{2}, \quad a_{1} = 1
+\end{align*}\]</span></p>
+<p>代入 <span class="math inline">\(\ln(x + 1) \sim \frac{3x^{2} + 6x}{x^{2} + 6x + 6}\)</span></p>
+<p>易证明：当 <span class="math inline">\(x &gt; 0\)</span>，<span class="math inline">\(\ln(x + 1) \geq \frac{3x^{2} + 6x}{x^{2} + 6x + 6}\)</span>； 当 <span class="math inline">\(-1 &lt; x &lt; 0\)</span>，<span class="math inline">\(\ln(x + 1) &lt; \frac{3x^{2} + 6x}{x^{2} + 6x + 6}\)</span>。</p>
+<p>则当 <span class="math inline">\(x = 1\)</span> 时 <span class="math inline">\(\ln 2 \geq \frac{9}{13}\)</span>。</p>
+<p>同理对 <span class="math inline">\(\mathrm{e}^{x}\)</span> 研究，可以得到 <span class="math display">\[\mathrm{e}^{x} \geq \frac{x^{2} + 6x + 12}{x^{2} - 6x + 12}, \quad x &gt; 0\]</span> 代入 <span class="math inline">\(x = \ln 2\)</span> 可得 <span class="math display">\[\ln 2 \leq 9 - \sqrt{69} \approx 0.69337\]</span></p>
+</section>
+<section id="连分式展开" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="连分式展开"><span class="header-section-number">6.5</span> 连分式展开</h2>
+<p>连分式展开最早由19世纪希腊数学家提出。<span class="math inline">\(\ln(1 + x)\)</span> 的连分式展开式由拉格朗日提出，下面给出结论与证明</p>
+<p><span class="math display">\[\ln(1 + x) = \cfrac{x}{1 + \cfrac{1^{2}x}{2 + \cfrac{1^{2}x}{3 + \cfrac{2^{2}x}{4 + \cfrac{2^{2}x}{5 + \cfrac{3^{2}x}{6 + \cfrac{3^{2}x}{7 + \cdots}}}}}}}\]</span></p>
+<p>证明设（感谢知乎张成） 设</p>
+<p><span class="math display">\[F(a,b,c,z) = 1 + \frac{ab}{c}z + \frac{a(a + 1)b(b + 1)}{2!(c + 1)}z^{2} + \frac{a(a + 1)(a + 2)b(b + 1)(b + 2)}{3!(c + 1)(c + 2)}z^{3} + \cdots\]</span></p>
+<p>则有</p>
+<p><span class="math display">\[\begin{align*}
+F(1,1,2, -z) &amp;= \frac{1}{2}\ln(1 + z) \quad \text{（泰勒展开）}
+\end{align*}\]</span> 比较交与前系数可证 <span class="math display">\[\begin{align*}
+F(a,b,c,z) &amp;= F(a,b + 1,c + 1,z) - \frac{a(c - b)}{c(c + 1)}zF(a + 1,b + 1,c + 2,z) \\
+\frac{F(a,b + 1,c + 1,z)}{F(a,b,c,z)} &amp;= \frac{1}{1 - \frac{a(c - b)}{c(c + 1)}z\frac{F(a + 1,b + 1,c + 2,z)}{F(a,b + 1,c + 1,z)}}
+\end{align*}\]</span></p>
+<p>交换 <span class="math inline">\(a\)</span> 和 <span class="math inline">\(b\)</span>，然后用 <span class="math inline">\(b + 1,c + 1\)</span> 代替 <span class="math inline">\(b\)</span> 和 <span class="math inline">\(c\)</span> 得到等式 <span class="math display">\[\begin{align*}
+\frac{F(a + 1,b + 1,c + 2,z)}{F(a,b + 1,c + 1,z)} &amp;= \frac{1}{1 - \frac{(b + 1)(c - a + 1)}{(c + 1)(c + 2)}z\frac{F(a + 1,b + 2,c + 3,z)}{F(a + 1,b + 1,c + 2,z)}}
+\end{align*}\]</span> 同样若将 <span class="math inline">\(a,b,c\)</span> 替代为 <span class="math inline">\(a + 1,b + 1,c + 2\)</span> 便可重复迭代得到高斯连分式</p>
+<p><span class="math display">\[\frac{F(a,b + 1,c + 1,z)}{F(a,b,c,z)} = \frac{1}{1 - \frac{a(c - b)}{c(c + 1)}z\left( 1 - \frac{(b + 1)(c - a + 1)}{(c + 1)(c + 2)}z\left( 1 - \frac{(a + 1)(c - b + 1)}{(c + 2)(c + 3)}z\left( 1 - \frac{(b + 2)(c - a + 2)}{(c + 3)(c + 4)}z - \cdots \right) \right) \right)}\]</span></p>
+<p>令 <span class="math inline">\(a = 1\)</span>，<span class="math inline">\(b = 0\)</span>，<span class="math inline">\(c = -2\)</span>，<span class="math inline">\(z = -z\)</span>，则 <span class="math display">\[\ln(1 + z) = \frac{z}{1 + \frac{1^{2}z}{2 + \frac{1^{2}z}{3 + \frac{2^{2}z}{4 + \cdots}}}}\]</span> 证毕。当 <span class="math inline">\(x = 1\)</span> 时代入 <span class="math display">\[\ln 2 = \frac{1}{1 + \frac{1^{2}}{2 + \frac{1^{2}}{3 + \frac{2^{2}}{4 + \cdots}}}}\]</span> 计算到 3 阶 <span class="math display">\[\ln 2 &lt; \frac{1}{1 + \frac{1}{2 + \frac{1}{3}}} = \frac{7}{10}\]</span> 证毕。</p>
+</section>
+<section id="小结-5" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="小结-5"><span class="header-section-number">6.6</span> 小结</h2>
+<p>本章大致讲了多种级数展开，通过各种方式对<span class="math inline">\(\ln 2\)</span>进行有理数逼近，对<span class="math inline">\(\ln 2\)</span>给出许多有效的逼近，贯穿始终的正是我们”高中必修”的泰勒展开。本章是完全高等数学的内容，或显晦涩，望读者理解。</p>
+</section>
+</section>
+<section id="致谢" class="level1 unnumbered">
+<h1 class="unnumbered">致谢</h1>
+<p>任何美好，都会有结束的时候。现在为未来留下的正是美好的过去罢了。 <span class="math inline">\(\ln 2 &lt; 0.7\)</span>的证明或许简单，但内部的逻辑并不简单。文章一点一点从高中水平走到高等数学的门槛，也许便是印证。</p>
+<ul>
+<li><p>感谢何其多老师的鼓励和支持，正是老师的启发让我有写完的动力。</p></li>
+<li><p>感谢同桌夏阳提供的题目与改进的意见。</p></li>
+<li><p>感谢陆奕冰同学、夏屹晨同学、赵志鹏同学等提的读者反馈，为这篇文章提供宝贵意见。</p></li>
+<li><p>感谢所有为这篇文章提供帮助的人。</p></li>
+</ul>
+<p>受限于作者知识，这篇文章多有不足，还望读者斧正。</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
