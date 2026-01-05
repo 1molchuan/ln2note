@@ -2,7 +2,6 @@
 
 > “过去更重要。” —— 一篇陪伴我一年的文章。
 
-[![Quarto Publish](https://github.com/1molchuan/ln2note/actions/workflows/publish.yml/badge.svg)](https://github.com/1molchuan/ln2note/actions/workflows/publish.yml)
 
 ## 📖 项目简介
 
