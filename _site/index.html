@@ -252,7 +252,7 @@ window.Quarto = {
 <p><span class="math display">\[\ln x \leq x - 1\quad \mathrm{e}^{x} \geq x + 1\]</span></p>
 <p>证明简单，这里就不过多阐述。</p>
 <p>回到这个不等式本身，我们是如何发现这个式的。很明显，切线放缩 <span class="math inline">\(y = x + 1\)</span> 作为 <span class="math inline">\(y = \ln x\)</span> 的切线。<span class="math inline">\(y = x + 1\)</span> 作为 <span class="math inline">\(y = \mathrm{e}^{x}\)</span> 的切线。那么一般地，什么函数我们可以进行切线放缩？</p>
-<p>答案是凸函数或凹函数（即 <span class="math inline">\(f(x)\)</span> 恒大于 0 或 <span class="math inline">\(f(x)\)</span> 恒小于 0）。以 <span class="math inline">\(\ln x\)</span> 为例，</p>
+<p>答案是凸函数或凹函数（即 <span class="math inline">\(f''(x)\)</span> 恒大于 0 或 <span class="math inline">\(f''(x)\)</span> 恒小于 0）。以 <span class="math inline">\(\ln x\)</span> 为例，</p>
 <p>令 <span class="math inline">\(f(x) = \ln x\)</span>，<span class="math inline">\(f'(x) = \frac{1}{x}\)</span>，<span class="math inline">\(f''(x) = -\frac{1}{x^{2}} &lt; 0\)</span> 显然 <span class="math inline">\(\ln x\)</span> 是凹函数（这里的凹函数不同于凸函数反转中的凹函数）。那么对于 <span class="math inline">\(\ln x\)</span> 上任意一点 <span class="math inline">\(\left( x_{0},\ln x_{0} \right)\)</span> 都有</p>
 <p><span class="math display">\[\ln x \leq \frac{1}{x_{0}}\left( x - x_{0} \right) + \ln x_{0}\]</span></p>
 <p>这里我们需要代入 <span class="math inline">\(x=2\)</span>，倘若我们所取切点 <span class="math inline">\(x_0\)</span> 越接近 2，那么不等式越精确。 这里我们取 <span class="math inline">\(x_0 = \mathrm{e}^{-\frac{2}{3}}\)</span>（由于 <span class="math inline">\(\mathrm{e}^{2} \approx 7.389\)</span>，<span class="math inline">\(2^{3} \approx 8\)</span>）代入 <span class="math inline">\(x=2\)</span> 得</p>
@@ -265,7 +265,7 @@ window.Quarto = {
 <p>那么我可以借助 2, <span class="math inline">\(\mathrm{e}\)</span> 和根号构造一个接近于 1 的不等式数字让不等式发挥最大作用，这里可以代入 <span class="math inline">\(x = \frac{\mathrm{e}^{2}}{8}\)</span> 和 <span class="math inline">\(x = \sqrt{\frac{\mathrm{e}^{2}}{8}}\)</span> 得</p>
 <p><span class="math display">\[\begin{align*}
 \ln 2 &amp;&lt; \frac{8 + \mathrm{e}^{2}}{3\mathrm{e}^{2}} \approx 0.694 \\
-\ln 2 &amp;&lt; \frac{4\sqrt{\mathrm{e}}}{3\mathrm{e}} \approx 0.6936
+\ln 2 &amp;&lt; \frac{4\sqrt{2}}{3\mathrm{e}} \approx 0.6936
 \end{align*}\]</span></p>
 <p>确实相当精确了。</p>
 </section>
@@ -353,14 +353,14 @@ k &amp;= -\frac{1}{2} \\
 \ln x &lt; \frac{1}{2}\left( x - \frac{1}{x} \right), &amp; \quad x &gt; 1
 \end{cases}
 \end{equation*}\]</span></p>
-<p>此式正是基本 AC 不等式，但精度不够则重复上述变换。</p>
+<p>此式正是基本对数平均不等式，但精度不够则重复上述变换。</p>
 <p>取 <span class="math inline">\(\left\lbrack (\ln x - 1)x \right\rbrack' = \ln x\)</span>，<span class="math inline">\(\left\lbrack \frac{1}{2}x^{2} - \frac{1}{2}x^{2} \right\rbrack' = \frac{1}{2}x^{2} - x\)</span></p>
 <p>重复变换</p>
 <p><span class="math display">\[\begin{align*}
 \ln x &amp;\leq \frac{(x + 5)(x - 1)}{4x + 2} \\
-\text{满足所证命题 } \ln 2 &amp;\leq 0.7
-\end{align*}\]</span></p>
-<p>有兴趣者可继续往下推理，这里给出答案</p>
+\ln 2 &amp;\leq 0.7
+\end{align*}\]</span> 满足所证命题<br>
+有兴趣者可继续往下推理，这里给出答案</p>
 <p>这 <span class="math display">\[\begin{equation*}
 \begin{cases}
 \ln x \geq \frac{(x - 1)\left( x^{2} + 10x + 1 \right)}{6x(x + 1)}, &amp; \quad 0 &lt; x \leq 1 \\
@@ -399,7 +399,7 @@ x\ln x &amp;\sim \frac{1}{2}\left( x^{2} - 1 \right) \\
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;">2-8</td>
+<td style="text-align: center;"></td>
 <td style="text-align: center;"><span class="math inline">\(1\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(0\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(-1\)</span></td>
@@ -471,7 +471,7 @@ x\ln x &amp;\sim \frac{1}{2}\left( x^{2} - 1 \right) \\
 </tbody>
 </table>
 <p>可以发现存在规律，通过数学归纳法可得拟合函数 (<span class="math inline">\(n \geq 1\)</span>)</p>
-<p><span class="math display">\[\varphi^{n}(x) = \frac{1}{n + 1}x + \sum_{i = 1}^{n}( - 1)^{i}\frac{1}{(i + 1)}\left( \frac{n}{i} \right)x^{n} + \left( \frac{n}{i} \right)x^{n} - 1\]</span></p>
+<p><span class="math display">\[\varphi^{n}(x) = \frac{1}{n + 1}x + \sum_{i = 1}^{n}( - 1)^{i}\frac{1}{i(i + 1)}\left( \frac{n}{i} \right)x^{-n} + \left( \frac{n}{i} \right)x^{-n} - 1\]</span></p>
 <p>不难证明：<span class="math inline">\(n\)</span> 为偶数时，<span class="math inline">\(\ln x \leq \varphi^{n}(x)\)</span>；<span class="math inline">\(n\)</span> 为奇数，<span class="math inline">\(x &gt; 1\)</span> 时 <span class="math inline">\(\ln x \leq \varphi^{n}(x)\)</span>，<span class="math inline">\(x &lt; 1\)</span> 时 <span class="math inline">\(\ln x \geq \varphi^{n}(x)\)</span>。</p>
 <p>在 <span class="math inline">\(n=3\)</span> 时代入 <span class="math inline">\(x=2\)</span>，<span class="math inline">\(\ln 2 \leq \frac{67}{96} \approx 0.6979167\)</span>； 在 <span class="math inline">\(n=4\)</span> 时代入 <span class="math inline">\(x=2\)</span>，<span class="math inline">\(\ln 2 &lt; \frac{667}{960} \approx 0.6948\)</span>； 在 <span class="math inline">\(n=5\)</span> 时代入 <span class="math inline">\(x=2\)</span>，<span class="math inline">\(\ln 2 &lt; \frac{111}{160} = 0.69375\)</span>。</p>
 <p>显然增加了极大的精确程度。</p>
@@ -548,16 +548,15 @@ g'(n) &amp;= 2^{\frac{1}{n}} - 1 - \frac{\ln 2}{n}2^{\frac{1}{n}} &lt; 0
 <p>借助 <code>MATLAB</code> 可以计算得出，</p>
 <p><span class="math display">\[a_{1} = \frac{76}{9},a_{2} = - \frac{280}{9},a_{3} = 81,a_{4} = - \frac{832}{9},a_{5} = \frac{325}{9}\]</span></p>
 <p>则</p>
-<p><span class="math display">\[\ln x \leq \frac{76}{9}\sqrt{x} - \frac{280}{9}\sqrt{2x + 2} + 81\sqrt{3x + 6} - \frac{832}{9}\sqrt{4x + 12} + \frac{325}{9}\sqrt{5x + 20}\]</span></p>
-<p>代<span class="math inline">\(x = 2\)</span>可以证明</p>
-<p><span class="math display">\[\begin{equation*}
-\ln 2 \leq \begin{cases}
-\ln x \leq \frac{76}{9}\sqrt{x} - \frac{280}{9}\sqrt{2x + 2} + 81\sqrt{3x + 6} - \frac{832}{9}\sqrt{4x + 12} + \frac{325}{9}\sqrt{5x + 20}, &amp; \quad 0 &lt; x &lt; 1 \\
-\ln x \leq \frac{76}{9}\sqrt{x} - \frac{280}{9}\sqrt{2x + 2} + 81\sqrt{3x + 6} - \frac{832}{9}\sqrt{4x + 12} + \frac{325}{9}\sqrt{5x + 20}, &amp; \quad x &gt; 1
+<p><span class="math display">\[\ln x \approx \frac{76}{9}\sqrt{x} - \frac{280}{9}\sqrt{2x + 2} + 81\sqrt{3x + 6} - \frac{832}{9}\sqrt{4x + 12} + \frac{325}{9}\sqrt{5x + 20}\]</span></p>
+<p>可以证明 <span class="math display">\[\begin{equation*}
+\begin{cases}
+\ln x &lt; \frac{76}{9}\sqrt{x} - \frac{280}{9}\sqrt{2x + 2} + 81\sqrt{3x + 6} - \frac{832}{9}\sqrt{4x + 12} + \frac{325}{9}\sqrt{5x + 20}, &amp; 0 &lt; x &lt; 1 \\
+\ln x &gt; \frac{76}{9}\sqrt{x} - \frac{280}{9}\sqrt{2x + 2} + 81\sqrt{3x + 6} - \frac{832}{9}\sqrt{4x + 12} + \frac{325}{9}\sqrt{5x + 20}, &amp; x &gt; 1
 \end{cases}
 \end{equation*}\]</span></p>
 <p>代入<span class="math inline">\(x = 2\)</span></p>
-<p><span class="math display">\[\ln 2 \approx 0.6927\]</span></p>
+<p><span class="math display">\[\ln 2 &gt; 0.692708641292087\]</span>（MATLAB结果）</p>
 <p>与<span class="math inline">\(\ln 2 \approx 0.6931471806\)</span>相距很近</p>
 </section>
 <section id="小结-2" class="level2" data-number="3.3">
@@ -570,7 +569,7 @@ g'(n) &amp;= 2^{\frac{1}{n}} - 1 - \frac{\ln 2}{n}2^{\frac{1}{n}} &lt; 0
 <section id="两道港中深题目的引入" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="两道港中深题目的引入"><span class="header-section-number">4.1</span> 两道港中深题目的引入</h2>
 <p>我们先来看两道题</p>
-<p>①<span class="math inline">\(x \in \lbrack 0,\frac{\pi}{2})\)</span>,<span class="math inline">\(\lambda\sin x + (1 - \lambda)\tan x \geq x\)</span> 求<span class="math inline">\(\lambda\)</span>范围 ②<span class="math inline">\(x \in \lbrack 0,\frac{\pi}{2})\)</span>,<span class="math inline">\(\sin^{\lambda}x\tan^{1 - \lambda}x \geq x\)</span> 求<span class="math inline">\(\lambda\)</span>范围</p>
+<p>①<span class="math inline">\(x \in \lbrack 0,\frac{\pi}{2}\)</span>,<span class="math inline">\(\lambda\sin x + (1 - \lambda)\tan x \geq x\)</span> 求<span class="math inline">\(\lambda\)</span>范围 ②<span class="math inline">\(x \in \lbrack 0,\frac{\pi}{2}\)</span>,<span class="math inline">\(\sin^{\lambda}x\tan^{1 - \lambda}x \geq x\)</span> 求<span class="math inline">\(\lambda\)</span>范围</p>
 <p>原题是港中深自主招生题，实质是解决①②两个命题（感谢同桌夏阳供稿题） 这里先直接给出答案 ①<span class="math inline">\(\frac{2}{3}\sin x + \frac{1}{3}\tan x \geq x\)</span> 即 <span class="math inline">\(0 \leq \lambda \leq \frac{2}{3}\)</span> ②<span class="math inline">\(\sin^{\frac{2}{3}}x\tan^{\frac{1}{3}}x \geq x\)</span> 即 <span class="math inline">\(0 \leq \lambda \leq \frac{2}{3}\)</span></p>
 <p>我们先思考为什么会出现这两个不等式?很显然,这两个不等式通过过将</p>
 <p><span class="math inline">\(\sin x \leq x\)</span>（<span class="math inline">\(0 \leq x \leq \frac{\pi}{2}\)</span>）与 <span class="math inline">\(\tan x \geq x\)</span>（<span class="math inline">\(0 \leq x \leq \frac{\pi}{2}\)</span>）组合使不等式加强。不等式①是通过加法线性组合，不等式②是通过乘法组合。</p>
@@ -633,7 +632,7 @@ g(x) &amp;= \ln x - \left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack^{\lambda}\
 </ul>
 <!-- -->
 <ul>
-<li>三阶无穷小</li>
+<li><strong>三阶无穷小</strong></li>
 </ul>
 <p><span class="math display">\[\frac{(x - 1)(x + 5)}{4x + 2} - \ln x = o((x - 1)^3)\]</span></p>
 <ul>
@@ -641,7 +640,7 @@ g(x) &amp;= \ln x - \left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack^{\lambda}\
 <p><span class="math display">\[\begin{align*}
         &amp; \frac{1}{3}\left[ \frac{1}{2}\left( x - \frac{1}{x} \right) \right] + \frac{2}{3}\left[ \frac{2(x - 1)}{x + 1} \right] - \ln x = o((x - 1)^4) \\
         &amp; \left[ \frac{1}{2}\left( x - \frac{1}{x} \right) \right]^{\frac{1}{3}} \left[ \frac{2(x - 1)}{x + 1} \right]^{\frac{2}{3}} - \ln x = o((x - 1)^4) \\
-        &amp; \ln\left( \frac{8x^{3} - 1}{3(x + 1)^{3}} \right) - \ln x = o((x - 1)^4)
+        &amp; \frac{8x^{3} - 8}{3(x + 1)^{3}} - \ln x = o((x - 1)^4)
 \end{align*}\]</span></p></li>
 </ul>
 <p>在之前演示中，可以发现我们成功将 <span class="math inline">\(\frac{2(x - 1)}{x + 1} - \ln x\)</span> 与 <span class="math inline">\(\frac{1}{2}\left( x - \frac{1}{x} \right) - \ln x\)</span> 组合得到</p>
@@ -669,7 +668,7 @@ g(x) &amp;= \ln x - \left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack^{\lambda}\
 <p>梯形法则顾名思义，它的主要思想是将曲线在区间上的图形近似为一条梯形的面积，从而由梯形面积公式来计算函数在某个区间的积分近似值。</p>
 <p>即我们认为<span class="math inline">\(\left( f(x) \geq 0,x \geq 0 \right)\)</span></p>
 <p><span class="math display">\[\frac{- m + n}{2}\left\lbrack f(m) + f(n) \right\rbrack \approx \int_{m}^{n}f(x)\,\mathop{}\!\mathrm{d}x\]</span></p>
-<p>更特殊地，我们认为当<span class="math inline">\(f(x) \geq 0\)</span>即<span class="math inline">\(f(x)\)</span>是凹函数时</p>
+<p>更特殊地，我们认为当<span class="math inline">\(f''(x) &gt; 0\)</span>即<span class="math inline">\(f(x)\)</span>是下凸函数时</p>
 <p><span class="math display">\[\int_{m}^{n}f(x)\,\mathop{}\!\mathrm{d}x \leq \frac{- m + n}{2}\left\lbrack f(m) + f(n) \right\rbrack\]</span></p>
 <p>下给出证明</p>
 <p><span class="math display">\[\int_{m}^{n}f(x)\,\mathop{}\!\mathrm{d}x - \frac{n - m}{2}\left\lbrack f(m) + f(n) \right\rbrack \geq 0\]</span></p>
@@ -702,7 +701,7 @@ l_{2}(t) &amp;= \frac{t(t - 1)}{2}
 &amp;= \frac{h}{3}\left\lbrack f\left( x_{0} \right) + 2f\left( x_{1} \right) + f\left( x_{2} \right) \right\rbrack
 \end{align*}\]</span> 当整个区间<span class="math inline">\([a,b]\)</span>分为<span class="math inline">\(n\)</span>个小区间时，由于每个抛物线需要2个小区间，所以<span class="math inline">\(n\)</span>为偶数又则容易得到</p>
 <p><span class="math display">\[\int_{a}^{b}f(x)\,\mathop{}\!\mathrm{d}x = \frac{h}{3}\left\lbrack f\left( x_{0} \right) + f\left( x_{n} \right) + 2\left( f\left( x_{2} \right) + f\left( x_{4} \right) + \cdots \right) + 4\left( f\left( x_{1} \right) + f\left( x_{3} \right) + \cdots \right) \right\rbrack\]</span></p>
-<p>一般认为，若<span class="math inline">\(f''(x) &lt; 0\)</span>，估算值 &lt; 实际值，若<span class="math inline">\(f''(x) &gt; 0\)</span>，估算值 &gt; 实际值 这里我们选取 <span class="math inline">\(f(x) = \frac{1}{x}\)</span>，<span class="math inline">\(a = 1\)</span>，<span class="math inline">\(b = 2\)</span>，<span class="math inline">\(h = \frac{1}{4}\)</span> 代入 <span class="math display">\[\begin{align*}
+<p>一般认为，若<span class="math inline">\(f^{(4)}(x) &lt; 0\)</span>，估算值 &lt; 实际值，若<span class="math inline">\(f^{(4)}(x) &gt; 0\)</span>，估算值 &gt; 实际值 实际值 这里我们选取 <span class="math inline">\(f(x) = \frac{1}{x}\)</span>，<span class="math inline">\(a = 1\)</span>，<span class="math inline">\(b = 2\)</span>，<span class="math inline">\(h = \frac{1}{4}\)</span> 代入 <span class="math display">\[\begin{align*}
 \ln 2 = \int_{1}^{2}\frac{1}{x}\,\mathop{}\!\mathrm{d}x &amp;&lt; \frac{8.319}{12} \approx 0.69325
 \end{align*}\]</span> 与 <span class="math inline">\(\ln 2 \approx 0.69314\)</span> 相当接近。</p>
 </section>
