@@ -75,7 +75,7 @@
     
     \vfill % 把作者信息推到底部
     
-    {\large 笔者 \par}
+    {\large 笔者 1molchuan\par}
     \vspace{0.5cm}
     {\large \today \par}
     
@@ -139,7 +139,7 @@
 证明简单，这里就不过多阐述。
 
 回到这个不等式本身，我们是如何发现这个式的。很明显，切线放缩
-\(y = x + 1\) 作为 \(y = \ln x\) 的切线。\(y = x + 1\) 作为 \(y = \ee^{x}\)
+\(y = x - 1\) 作为 \(y = \ln x\) 的切线。\(y = x + 1\) 作为 \(y = \ee^{x}\)
 的切线。那么一般地，什么函数我们可以进行切线放缩？
 
 答案是凸函数或凹函数（即 \(f(x)\) 恒大于 0 或 \(f(x)\) 恒小于 0）。以
@@ -336,18 +336,209 @@ $5$ & $\frac{1}{6}$ & $\frac{71}{60}$ & $-\frac{5}{2}$ & $\frac{5}{3}$ & $-\frac
 \end{tabular}
 \end{table}
 
-可以发现存在规律，通过数学归纳法可得拟合函数 (\(n \geq 1\))
+可以发现存在规律，通过数学归纳法可得拟合函数（$n\ge 1$）
+\[
+\varphi_{n}(x)= \frac{1}{n+1}x+\sum_{i=1}^{n}(-1)^{i}\frac{1}{i(i+1)}\binom{n}{i}x^{-i}
++\left(\sum_{j=1}^{n}\frac{1}{j}\right)-1,\qquad (x>0).
+\]
+（说明：这里的 $n$ 是参数，不表示迭代复合；因此用 $\varphi_n$ 比 $\varphi^{n}$ 更不易引起歧义。）
 
-\[\varphi^{n}(x) = \frac{1}{n + 1}x + \sum_{i = 1}^{n}( - 1)^{i}\frac{1}{(i + 1)}\left( \frac{n}{i} \right)x^{n} + \left( \frac{n}{i} \right)x^{n} - 1\]
+不难证明如下结论：
 
-不难证明：\(n\) 为偶数时，\(\ln x \leq \varphi^{n}(x)\)；\(n\) 为奇数，\(x > 1\) 时
-\(\ln x \leq \varphi^{n}(x)\)，\(x < 1\) 时 \(\ln x \geq \varphi^{n}(x)\)。
+\begin{itemize}
+\item 当 $n$ 为偶数时，对所有 $x>0$ 都有
+\[
+\ln x\le \varphi_n(x).
+\]
+\item 当 $n$ 为奇数时，
+\[
+x>1\Rightarrow \ln x\le \varphi_n(x),\qquad 0<x<1\Rightarrow \ln x\ge \varphi_n(x).
+\]
+\end{itemize}
 
-在 \(n=3\) 时代入 \(x=2\)，\(\ln 2 \leq \frac{67}{96} \approx 0.6979167\)；
-在 \(n=4\) 时代入 \(x=2\)，\(\ln 2 < \frac{667}{960} \approx 0.6948\)；
-在 \(n=5\) 时代入 \(x=2\)，\(\ln 2 < \frac{111}{160} = 0.69375\)。
+\paragraph{证明}
+令误差函数
+\[
+E_n(x):=\varphi_n(x)-\ln x.
+\]
+我们将证明 $E_n(1)=0$，并求出 $E_n'(x)$ 的闭式，从而得到 $E_n$ 的单调性与符号。
 
-显然增加了极大的精确程度。
+\subparagraph{(1) 计算导数并化简为闭式}
+对 $\varphi_n(x)$ 求导。线性项给出
+\[
+\frac{d}{dx}\left(\frac{x}{n+1}\right)=\frac{1}{n+1}.
+\]
+对和式中每一项（$i\ge 1$）：
+\[
+\frac{d}{dx}\left[(-1)^i\frac{1}{i(i+1)}\binom{n}{i}x^{-i}\right]
+=(-1)^i\frac{1}{i(i+1)}\binom{n}{i}(-i)x^{-i-1}
+=(-1)^{i+1}\frac{1}{i+1}\binom{n}{i}x^{-i-1}.
+\]
+常数项 $\left(\sum_{j=1}^n\frac{1}{j}\right)-1$ 导数为 0，因此
+\[
+\varphi_n'(x)=\frac{1}{n+1}+\sum_{i=1}^{n}(-1)^{i+1}\frac{1}{i+1}\binom{n}{i}x^{-i-1}.
+\]
+于是
+\[
+E_n'(x)=\varphi_n'(x)-\frac{1}{x}
+=\frac{1}{n+1}+\sum_{i=1}^{n}(-1)^{i+1}\frac{1}{i+1}\binom{n}{i}x^{-i-1}-\frac{1}{x}.
+\]
+
+接下来用积分恒等式
+\[
+\frac{1}{i+1}=\int_{0}^{1}t^{i}\,dt
+\]
+把和式化简。注意 $x^{-i-1}=\frac1x\left(\frac1x\right)^i$，于是
+\[
+\sum_{i=1}^{n}(-1)^{i+1}\frac{1}{i+1}\binom{n}{i}x^{-i-1}
+=\frac{1}{x}\int_0^1\sum_{i=1}^{n}(-1)^{i+1}\binom{n}{i}\left(\frac{t}{x}\right)^i\,dt.
+\]
+利用二项式恒等式
+\[
+\sum_{i=0}^n(-1)^i\binom{n}{i}y^i=(1-y)^n,
+\]
+可得
+\[
+\sum_{i=1}^n(-1)^{i+1}\binom{n}{i}y^i
+=1-(1-y)^n.
+\]
+取 $y=t/x$，得到
+\[
+\sum_{i=1}^{n}(-1)^{i+1}\binom{n}{i}\left(\frac{t}{x}\right)^i
+=1-\left(1-\frac{t}{x}\right)^n.
+\]
+从而
+\[
+\sum_{i=1}^{n}(-1)^{i+1}\frac{1}{i+1}\binom{n}{i}x^{-i-1}
+=\frac{1}{x}\int_0^1\left[1-\left(1-\frac{t}{x}\right)^n\right]dt.
+\]
+代回 $E_n'(x)$：
+\[
+E_n'(x)
+=\frac{1}{n+1}+\frac{1}{x}\int_0^1\left[1-\left(1-\frac{t}{x}\right)^n\right]dt-\frac{1}{x}
+=\frac{1}{n+1}-\frac{1}{x}\int_0^1\left(1-\frac{t}{x}\right)^n dt.
+\]
+
+最后计算该积分。令 $u=1-\frac{t}{x}$，则 $dt=-x\,du$。
+当 $t:0\to 1$ 时，$u:1\to 1-\frac{1}{x}$，因此
+\[
+\int_0^1\left(1-\frac{t}{x}\right)^n dt
+=x\int_{1-1/x}^{1}u^n\,du
+=x\cdot\frac{1-(1-1/x)^{n+1}}{n+1}.
+\]
+代回可得
+\[
+E_n'(x)=\frac{1}{n+1}-\frac{1}{x}\cdot x\cdot\frac{1-(1-1/x)^{n+1}}{n+1}
+=\frac{(1-1/x)^{n+1}}{n+1}.
+\]
+即
+\[
+\boxed{\;
+E_n'(x)=\frac{1}{n+1}\left(1-\frac{1}{x}\right)^{n+1}.
+\;}
+\]
+
+\subparagraph{(2) 证明 $E_n(1)=0$（即 $\varphi_n(1)=0$）}
+由于 $\ln 1=0$，故 $E_n(1)=\varphi_n(1)$。直接代入 $x=1$ 得
+\[
+\varphi_n(1)=\frac{1}{n+1}+\sum_{i=1}^{n}(-1)^i\frac{1}{i(i+1)}\binom{n}{i}
++\sum_{j=1}^{n}\frac{1}{j}-1.
+\]
+下面证明该值为 0。
+
+先用分解
+\[
+\frac{1}{i(i+1)}=\frac{1}{i}-\frac{1}{i+1},
+\]
+把和式写为
+\[
+\sum_{i=1}^{n}(-1)^i\frac{1}{i(i+1)}\binom{n}{i}
+=\underbrace{\sum_{i=1}^{n}(-1)^i\binom{n}{i}\frac{1}{i}}_{=:S_1}
+-\underbrace{\sum_{i=1}^{n}(-1)^i\binom{n}{i}\frac{1}{i+1}}_{=:S_2}.
+\]
+
+对 $S_1$：用 $\frac1i=\int_0^1 t^{i-1}dt$，
+\[
+S_1=\int_0^1\sum_{i=1}^n(-1)^i\binom{n}{i}t^{i-1}\,dt
+=\int_0^1\frac{(1-t)^n-1}{t}\,dt.
+\]
+又有经典恒等式（例如把 $1-(1-t)^n=\sum_{k=1}^n\binom{n}{k}(-1)^{k+1}t^k$ 除以 $t$ 后逐项积分即可）：
+\[
+\int_0^1\frac{1-(1-t)^n}{t}\,dt=\sum_{k=1}^n\frac{1}{k}.
+\]
+因此
+\[
+S_1=-\sum_{k=1}^n\frac{1}{k}.
+\]
+
+对 $S_2$：用 $\frac1{i+1}=\int_0^1 t^i dt$，
+\[
+S_2=\int_0^1\sum_{i=1}^n(-1)^i\binom{n}{i}t^i\,dt
+=\int_0^1\left[(1-t)^n-1\right]dt
+=\frac{1}{n+1}-1.
+\]
+
+于是
+\[
+\sum_{i=1}^{n}(-1)^i\frac{1}{i(i+1)}\binom{n}{i}
+=S_1-S_2
+=-\sum_{k=1}^n\frac{1}{k}-\left(\frac{1}{n+1}-1\right)
+=1-\frac{1}{n+1}-\sum_{k=1}^n\frac{1}{k}.
+\]
+代回 $\varphi_n(1)$：
+\[
+\varphi_n(1)=\frac{1}{n+1}+\left(1-\frac{1}{n+1}-\sum_{k=1}^n\frac{1}{k}\right)+\sum_{j=1}^n\frac{1}{j}-1=0.
+\]
+故
+\[
+\boxed{\;E_n(1)=0.\;}
+\]
+
+\subparagraph{(3) 由导数符号推出不等式（奇偶性结论）}
+由
+\[
+E_n'(x)=\frac{1}{n+1}\left(1-\frac{1}{x}\right)^{n+1}
+\]
+可知：
+
+\begin{itemize}
+\item 若 $n$ 为奇数，则 $n+1$ 为偶数，从而对一切 $x>0$ 有 $E_n'(x)\ge 0$。
+因此 $E_n$ 在 $(0,\infty)$ 上单调不减，且 $E_n(1)=0$，于是
+\[
+0<x<1\Rightarrow E_n(x)\le 0\Rightarrow \varphi_n(x)\le \ln x,
+\]
+\[
+x>1\Rightarrow E_n(x)\ge 0\Rightarrow \varphi_n(x)\ge \ln x.
+\]
+即奇数 $n$ 时
+\[
+x>1:\ \ln x\le\varphi_n(x),\qquad 0<x<1:\ \ln x\ge\varphi_n(x).
+\]
+
+\item 若 $n$ 为偶数，则 $n+1$ 为奇数，所以 $E_n'(x)$ 与 $1-\frac1x$ 同号：
+在 $(0,1)$ 上 $E_n'(x)<0$，在 $(1,\infty)$ 上 $E_n'(x)>0$，因此 $x=1$ 为 $E_n$ 的全局最小点。
+由于 $E_n(1)=0$，可得对所有 $x>0$，
+\[
+E_n(x)\ge 0\quad\Rightarrow\quad \ln x\le \varphi_n(x).
+\]
+\end{itemize}
+证毕。
+
+\paragraph{数值例子（$x=2$）}
+在 $n=3$ 时代入 $x=2$，
+\[
+\ln 2 \le \varphi_3(2)=\frac{67}{96}\approx 0.6979167;
+\]
+在 $n=4$ 时代入 $x=2$，
+\[
+\ln 2 < \varphi_4(2)=\frac{667}{960}\approx 0.6948;
+\]
+在 $n=5$ 时代入 $x=2$，
+\[
+\ln 2 < \varphi_5(2)=\frac{111}{160}=0.69375.
+\]
+显然，随着 $n$ 增大，对 $\ln 2$ 的逼近精度显著提高。
+
 
 \subsection{小结}
 
@@ -427,8 +618,9 @@ g'(n) &= 2^{\frac{1}{n}} - 1 - \frac{\ln 2}{n}2^{\frac{1}{n}} < 0
 \subsection{根式函数拟合}
 
 灵感主要来自于 2019 年的浙江压轴导数大题，需要证明出不等式
-\(\ln x \leq 4\sqrt{x} - 2\sqrt{2x + 2}\)
-
+\[
+\ln x \leq 4\sqrt{x} - 2\sqrt{2x+2}
+\]
 对其进行证明令
 \(f(x) = \frac{\sqrt{2}}{4}\ln x + \sqrt{2x} - \sqrt{2}x\)
 
@@ -447,7 +639,7 @@ g'(n) &= 2^{\frac{1}{n}} - 1 - \frac{\ln 2}{n}2^{\frac{1}{n}} < 0
 显然 \(8t^{4} - 8t^{3} + 9t^{2} - 4t + 4 = 2t^{2}\left\lbrack (2t - 1)^{2} + 3 \right\rbrack + (t - 2)^{2} \geq 0\)
 则 \(p'(x) < 0\)，\(p(x)\) 在 \((0,1)\) 上单调递减，又因为 \(p(1) = 0\)，则
 \(p(x) > 0\)（\(x \in (0,1)\)）。从计算机 \texttt{MATLAB} 的拟合来看
-\(4\sqrt{x} - 2\sqrt{2x + 2}\) 不同于之前介绍的不等式
+\(4\sqrt{x} - 2\sqrt{2x + 2}\) 不同于之前介绍的不等式\\
 笔者尝试构造类似不等式即
 
 \[\ln x \leq a\sqrt{x} + b\sqrt{x + 1} + c\sqrt{x + 2}\]
@@ -672,8 +864,7 @@ g(x) &= \ln x - \left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack^{\lambda}\left
 \end{itemize}
 
 \begin{itemize}
-\item
-  三阶无穷小
+    \item \textbf{三阶无穷小}
 \end{itemize}
 
 \[\frac{(x - 1)(x + 5)}{4x + 2} - \ln x = o((x - 1)^3)\]
@@ -696,7 +887,7 @@ g(x) &= \ln x - \left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack^{\lambda}\left
 \(\frac{2(x - 1)}{x + 1} - \ln x\)与\(\frac{1}{2}\left( x - \frac{1}{x} \right) - \ln x\)是同阶无穷小，与\(x - 1 - \ln x\)是不同阶无穷小
 
 \begin{remark}
-这一小节采用高数的符号，这里写\(f(x)\)为\(O(x - 1)\)是指\(\lim_{x \rightarrow 1}\frac{f(x)}{(x - 1)^{n}} = 0\)
+这一小节采用高数的符号，这里写\(f(x)\)为\(o(x - 1)^n\)是指\(\lim_{x \rightarrow 1}\frac{f(x)}{(x - 1)^{n}} = 0\)
 \end{remark}
 
 \subsection{小结}
@@ -707,7 +898,7 @@ g(x) &= \ln x - \left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack^{\lambda}\left
 \varphi_{1}(x) &= \frac{1}{3}\left\lbrack \frac{1}{2}\left( x - \frac{1}{x} \right) \right\rbrack + \frac{2}{3}\left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack - \ln x \\
 \varphi_{2}(x) &= \left\lbrack \frac{1}{2}\left( x - \frac{1}{x} \right) \right\rbrack^{\frac{1}{3}}\left\lbrack \frac{2(x - 1)}{x + 1} \right\rbrack^{\frac{2}{3}} - \ln x
 \end{align*}
-均属于 \(O(x - 1)^{4}\)，也就是说 \(\varphi_{1}(x)\) 与 \(\varphi_{2}(x)\) 仍然可以进行再次组合，构造不等式。有兴趣的读者可以接着尝试。
+均属于 \(o(x - 1)^{4}\)，也就是说 \(\varphi_{1}(x)\) 与 \(\varphi_{2}(x)\) 仍然可以进行再次组合，构造不等式。有兴趣的读者可以接着尝试。
 
 总而言之，此类方法是适用性极广的方法且效果显著，经常在模拟卷中出现。
 
@@ -851,6 +1042,8 @@ P_{n}(x) &= f\left( x_{0} \right) + \frac{f'\left( x_{0} \right)}{1!}\left( x - 
 
 \[\ee^{x} = 1 + x + \frac{1}{2!}x^{2} + \cdots + \frac{1}{n!}x^{n} + \frac{\ee^{\theta x}}{(n + 1)!}x^{n + 1}\]
 
+其中 \(\theta \in (0,1)\)
+
 那么我们对 \(\ln 2\) 进行估值则有
 
 \[\ln 2 = \sum_{n = 1}^{\infty}( - 1)^{n - 1}\frac{1}{n}\]
@@ -859,7 +1052,7 @@ P_{n}(x) &= f\left( x_{0} \right) + \frac{f'\left( x_{0} \right)}{1!}\left( x - 
 
 方法不错，但是需要计算较多阶数，原因在于此公式的收敛速度极慢，因此需要改进
 
-我们可以取 \(\ln(1+x)\) 在 \(x=2\) 处的泰勒展开
+我们可以取 \(\ln(x)\) 在 \(x=2\) 处的泰勒展开
 
 \[\ln x = \ln 2 + \frac{1}{2}(x - 2) - \frac{1}{4}\frac{(x - 2)^{2}}{2!} + \frac{1}{4}\frac{(x - 2)^{3}}{3!} - \cdots\]
 
